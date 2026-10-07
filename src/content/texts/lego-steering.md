@@ -5,6 +5,8 @@ summary: 説明書作成ソフトで作ったオリジナルの組み立て説�
 image: images/lego-steering.jpg
 url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp=sharing"
 order: 1
+tools: [レゴ, Stud.io]
+featured: true
 ---
 
 ## ねらい

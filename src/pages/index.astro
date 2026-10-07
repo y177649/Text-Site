@@ -1,24 +1,59 @@
 ---
 import Base from '../layouts/Base.astro';
 import TextCard from '../components/TextCard.astro';
-import { getTexts, groupByCategory } from '../lib/texts';
+import { getTexts, groupByCategory, textUrl, toolSummary } from '../lib/texts';
 import { SITE } from '../site';
 
-const groups = groupByCategory(await getTexts());
+const texts = await getTexts();
+const groups = groupByCategory(texts);
+const catIndex = (name: string) => groups.find((g) => g.name === name)!.index;
+const featured = texts.filter((t) => t.data.featured); // おすすめ。トップに常にカードで出す
+const others = texts.filter((t) => !t.data.featured);
+const othersPreview = others.slice(0, 3); // その他のテキストは3件だけ見せる
+const tools = toolSummary(texts);
 const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
 ---
 <Base>
   <section class="hero">
+    <div class="blobs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     <h1>{SITE.headline}</h1>
     <p class="lead">{lead}。カードを押すと、ねらいや注意点とテキストへのリンクが見られます。</p>
   </section>
 
-  {groups.map((g) => (
+  <h2 id="texts">おすすめのテキスト</h2>
+  <ul class="grid">
+    {featured.map((text) => <TextCard text={text} catIndex={catIndex(text.data.category)} />)}
+  </ul>
+
+  {othersPreview.length > 0 && (
     <>
-      <h2 id={`cat-${g.index}`}>{g.name}</h2>
-      <ul class="grid">
-        {g.texts.map((text) => <TextCard text={text} catIndex={g.index} />)}
+      <h2 id="others">その他のテキスト</h2>
+      <ul class="list">
+        {othersPreview.map((t) => (
+          <li data-cat={catIndex(t.data.category) % 5}>
+            <span class="y">{t.data.category}</span>
+            <div>
+              <a href={textUrl(t)}>{t.data.title}</a>
+              <p>{t.data.summary}</p>
+            </div>
+          </li>
+        ))}
       </ul>
     </>
-  ))}
+  )}
+  <a class="more" href={`${import.meta.env.BASE_URL}texts/`}>すべてのテキストを見る（{texts.length}件）→</a>
+
+  <div class="two-col">
+    <section>
+      <h2 id="about">About</h2>
+      <ul class="facts">{SITE.about.map((a) => <li>{a}</li>)}</ul>
+    </section>
+    <section>
+      <h2 id="tools">使う道具・ソフト</h2>
+      <p class="note">上のテキストで使うもの。数字は使うテキストの数。</p>
+      <ul class="chips">
+        {tools.map((t, i) => <li data-cat={i % 5}>{t.name}<span>{t.count}</span></li>)}
+      </ul>
+    </section>
+  </div>
 </Base>

@@ -5,11 +5,16 @@ interface Props {
   text: Text;
   // 分類の色（パレットを順に回す番号）
   catIndex: number;
+  // 一覧ページなど、おすすめ（featured）を印として見せたいときに true
+  showPin?: boolean;
 }
-const { text, catIndex } = Astro.props;
-const { title, category, summary, image } = text.data;
+const { text, catIndex, showPin = false } = Astro.props;
+const { title, category, summary, image, featured } = text.data;
 ---
 <li class="card" data-cat={catIndex % 5}>
+  {showPin && featured && (
+    <span class="pin" title="おすすめ" aria-label="おすすめのテキスト">📌</span>
+  )}
   {image && <img class="thumb" src={assetUrl(image)} alt="" loading="lazy" decoding="async" />}
   <div class="card-body">
     <div class="meta"><span class="tag">{category}</span></div>

@@ -5,6 +5,8 @@ summary: 階段を登る車の組み立て説明書。
 image: images/lego-kaidan-car.jpg
 url: "https://drive.google.com/file/d/1UV-jhUzh4TIpLnmPixSfiQvlUDcS-VMq/view?usp=sharing"
 order: 3
+tools: [レゴ, Stud.io]
+featured: false
 ---
 
 ## ねらい
