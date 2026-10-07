@@ -130,3 +130,8 @@ article ul { padding-left: 1.25em; }
   .card { transition: none; }
   .card:hover { transform: none; }
 }
+
+/* プライバシーポリシー */
+.policy p { margin: 0 0 12px; }
+.policy h1 + .lead { margin-bottom: 24px; }
+.policy li { margin: 4px 0; }
