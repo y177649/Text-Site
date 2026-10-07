@@ -13,7 +13,7 @@ const groups = groupByCategory(await getTexts()); // 分類ごと。おすすめ
     <>
       <h2 id={`cat-${g.index}`}>{g.name}</h2>
       <ul class="grid">
-        {g.texts.map((text) => <TextCard text={text} catIndex={g.index} showPin />)}
+        {g.texts.map((text) => <TextCard text={text} showPin />)}
       </ul>
     </>
   ))}

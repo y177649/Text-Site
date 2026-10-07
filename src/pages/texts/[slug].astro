@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { assetUrl, getTexts, groupByCategory, textUrl } from '../../lib/texts';
+import { assetUrl, catStyle, getTexts, groupByCategory, textUrl } from '../../lib/texts';
 
 export async function getStaticPaths() {
   const texts = await getTexts();
@@ -22,7 +22,7 @@ const { title, category, summary, image, url, tools } = text.data;
 const { Content } = await render(text);
 ---
 <Base title={title} description={summary} image={image}>
-  <article data-cat={catIndex % 5}>
+  <article style={catStyle(category)}>
     <a class="back" href={`${import.meta.env.BASE_URL}texts/#cat-${catIndex}`}>← すべてのテキスト</a>
     <h1>{title}</h1>
     <p class="lead">{summary}</p>
