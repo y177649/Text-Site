@@ -1,0 +1,87 @@
+/* レイアウトはポートフォリオ（y177649/Portfolio の global.css）に合わせる。
+   色は Team Rapportia のアイコンのパレット。背景は常に白（ダークモードには切り替えない）。 */
+:root {
+  --navy: #024176;
+  --teal: #3fa690;
+  --yellow: #ffbd59;
+  --orange: #f38e64;
+  --pink: #e5aeac;
+  --sky: #b7dbe7;
+
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #1c1917;
+  --muted: #57534e;
+  --line: #e7e5e4;
+  --accent: var(--navy);
+  --radius: 12px;
+  --max: 64rem;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.75 system-ui, -apple-system, "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+}
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+header.site { padding: 24px 0; }
+header.site a { color: var(--text); text-decoration: none; font-weight: 700; }
+footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 24px 0 40px; color: var(--muted); font-size: .875rem; }
+footer.site nav { display: flex; gap: 16px; flex-wrap: wrap; }
+h1 { font-size: clamp(1.6rem, 4vw, 2.25rem); line-height: 1.35; margin: 0 0 16px; letter-spacing: .01em; }
+h2 { font-size: 1.25rem; margin: 56px 0 16px; }
+.lead { color: var(--muted); max-width: 42rem; margin: 0; }
+.hero { padding: 24px 0 8px; }
+
+/* 分類ごとの色（パレットを順に回す。カード上端の線・タグの枠・詳細ページの見出し前の線） */
+[data-cat="0"] { --cat: var(--orange); }
+[data-cat="1"] { --cat: var(--teal); }
+[data-cat="2"] { --cat: var(--yellow); }
+[data-cat="3"] { --cat: var(--pink); }
+[data-cat="4"] { --cat: var(--sky); }
+
+/* カード */
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); list-style: none; padding: 0; margin: 0; }
+.card { position: relative; display: flex; flex-direction: column; height: 100%; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--cat, var(--line));
+  border-radius: var(--radius); transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--cat, var(--accent)); transform: translateY(-2px); }
+.thumb { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: #f5f5f4; border-bottom: 1px solid var(--line); }
+.card-body { display: flex; flex-direction: column; gap: 8px; flex: 1; padding: 16px 20px 20px; }
+.card h3 { font-size: 1.05rem; margin: 0; line-height: 1.45; }
+.card h3 a { color: var(--text); text-decoration: none; }
+/* カード全体を押せるようにする（リンクは見出しの1つだけ） */
+.card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+.card p { margin: 0; color: var(--muted); font-size: .925rem; }
+.meta { display: flex; gap: 8px; align-items: center; font-size: .8rem; color: var(--muted); }
+.tag { border: 1px solid var(--cat, var(--line)); border-radius: 999px; padding: 0 10px; color: var(--navy); }
+
+/* 詳細ページ */
+article { max-width: 44rem; }
+article .back { font-size: .9rem; }
+article h1 { border-left: 4px solid var(--cat, var(--accent)); padding-left: 12px; margin-top: 16px; }
+.hero-image { display: block; width: 100%; height: auto; margin: 24px 0 0; border: 1px solid var(--line); border-radius: var(--radius); }
+article dl { display: grid; grid-template-columns: 6rem 1fr; gap: 4px 12px; margin: 24px 0; font-size: .925rem; }
+article dt { color: var(--muted); }
+article dd { margin: 0; }
+.open { display: inline-block; padding: 10px 20px; border-radius: 999px; background: var(--navy); color: #fff;
+  font-weight: 700; text-decoration: none; }
+.open:hover { background: #01315a; }
+.open.is-disabled { background: var(--line); color: var(--muted); }
+article h2 { font-size: 1.1rem; margin: 40px 0 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+article ul { padding-left: 1.25em; }
+
+/* 詳細ページの前後リンク */
+.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: .9rem; }
+.pager a { max-width: 48%; text-decoration: none; }
+.pager a:last-child { text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+  .card:hover { transform: none; }
+}

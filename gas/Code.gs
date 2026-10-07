@@ -6,7 +6,7 @@ var MANUAL_SHEET = "正解データ";
 var RAW_HEADER = ["時刻", "device_id", "text_id", "referrer"];
 var MANUAL_HEADER = ["日付", "コマ開始時刻", "text_id", "使った人数", "使ったPC台数", "メモ"];
 
-// テキストの一覧は config.js だけで管理する。ここでは text_id の形式だけを見るので、
+// テキストの一覧は src/content/texts/ だけで管理する。ここでは text_id の形式だけを見るので、
 // テキストを追加しても Apps Script の書き換え・再デプロイは要らない。
 var TEXT_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,63}$/;
 var REFERRERS = ["wonder", "general"];

@@ -1,0 +1,19 @@
+---
+import { assetUrl, textUrl, type Text } from '../lib/texts';
+
+interface Props {
+  text: Text;
+  // 分類の色（パレットを順に回す番号）
+  catIndex: number;
+}
+const { text, catIndex } = Astro.props;
+const { title, category, summary, image } = text.data;
+---
+<li class="card" data-cat={catIndex % 5}>
+  {image && <img class="thumb" src={assetUrl(image)} alt="" loading="lazy" decoding="async" />}
+  <div class="card-body">
+    <div class="meta"><span class="tag">{category}</span></div>
+    <h3><a href={textUrl(text)}>{title}</a></h3>
+    <p>{summary}</p>
+  </div>
+</li>
