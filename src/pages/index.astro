@@ -6,23 +6,23 @@ import { SITE } from '../site';
 
 const texts = await getTexts();
 const groups = groupByCategory(texts);
-const catIndex = (name: string) => groups.find((g) => g.name === name)!.index;
-const featured = texts.filter((t) => t.data.featured); // おすすめ。トップに常にカードで出す
-const others = texts.filter((t) => !t.data.featured);
+// おすすめ：featured: true を先に、SITE.featuredCount 枚になるまで残りから順に埋める。あふれた分は「その他」
+const ordered = [...texts.filter((t) => t.data.featured), ...texts.filter((t) => !t.data.featured)];
+const featured = ordered.slice(0, SITE.featuredCount);
+const others = ordered.slice(SITE.featuredCount);
 const othersPreview = others.slice(0, 3); // その他のテキストは3件だけ見せる
 const tools = toolSummary(texts);
 const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
 ---
 <Base>
   <section class="hero">
-    <div class="blobs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     <h1>{SITE.headline}</h1>
     <p class="lead">{lead}。カードを押すと、ねらいや注意点とテキストへのリンクが見られます。</p>
   </section>
 
   <h2 id="texts">おすすめのテキスト</h2>
   <ul class="grid">
-    {featured.map((text) => <TextCard text={text} catIndex={catIndex(text.data.category)} />)}
+    {featured.map((text) => <TextCard text={text} />)}
   </ul>
 
   {othersPreview.length > 0 && (
@@ -30,7 +30,7 @@ const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
       <h2 id="others">その他のテキスト</h2>
       <ul class="list">
         {othersPreview.map((t) => (
-          <li data-cat={catIndex(t.data.category) % 5}>
+          <li>
             <span class="y">{t.data.category}</span>
             <div>
               <a href={textUrl(t)}>{t.data.title}</a>
@@ -52,7 +52,7 @@ const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
       <h2 id="tools">使う道具・ソフト</h2>
       <p class="note">上のテキストで使うもの。数字は使うテキストの数。</p>
       <ul class="chips">
-        {tools.map((t, i) => <li data-cat={i % 5}>{t.name}<span>{t.count}</span></li>)}
+        {tools.map((t) => <li>{t.name}<span>{t.count}</span></li>)}
       </ul>
     </section>
   </div>

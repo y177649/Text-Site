@@ -4,13 +4,21 @@ export const SITE = {
   author: 'Yuichiro Sato',
   headline: 'レゴと3Dプリンターの、作り方テキスト。',
   description: 'レゴと3Dプリンターの作り方テキスト。',
-  portfolio: 'https://y177649.github.io/Portfolio/',
   github: 'https://github.com/y177649',
+  // トップの「おすすめのテキスト」に出すカードの数。featured: true を先に、足りない分は残りから順に埋める
+  featuredCount: 6,
   // About に出す短い事実（1行ずつ）
   about: [
-    'リタリコワンダーのメンターとして作った教材テキスト',
-    '作成：Yuichiro Sato',
+    '子どもたちがワクワクしながら作れるテキストを、これからも作っていきます。',
+    '作成者：さっちゃん',
   ],
+  // 分類の色（カード上端の線・タグの枠・詳細ページの見出しの線だけに使う）。
+  // ここに無い分類はグレー。色はアイコンのパレットから選ぶ。
+  categoryColors: {
+    'レゴ': '#024176',
+    '3Dプリンター': '#3fa690',
+    'プログラミング': '#f38e64',
+  } as Record<string, string>,
   // 分類の表示順。ここに無い分類は後ろに名前順で並ぶ（分類を増やすときに書き足さなくても動く）。
   categoryOrder: ['レゴ', '3Dプリンター'],
   // 利用記録の送り先（Google Apps Script のウェブアプリ /exec）。空なら記録しない。

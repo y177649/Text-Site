@@ -33,13 +33,14 @@ const base = import.meta.env.BASE_URL;
     <meta name="darkreader-lock" />
   </head>
   <body>
+    <!-- 背景の丸（アイコンと同じ色面。ページの端で一部だけ見える。装飾のみ） -->
+    <div class="circles" aria-hidden="true">{Array.from({ length: 5 }, () => <span />)}</div>
     <header class="site"><div class="wrap"><a href={base}>{SITE.name}</a></div></header>
     <main class="wrap"><slot /></main>
     <footer class="site">
       <div class="wrap">
         <nav>
           <span>{SITE.author}</span>
-          <a href={SITE.portfolio}>Portfolio</a>
           <a href={SITE.github}>GitHub</a>
         </nav>
       </div>

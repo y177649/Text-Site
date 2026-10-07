@@ -1,17 +1,15 @@
 ---
-import { assetUrl, textUrl, type Text } from '../lib/texts';
+import { assetUrl, catStyle, textUrl, type Text } from '../lib/texts';
 
 interface Props {
   text: Text;
-  // 分類の色（パレットを順に回す番号）
-  catIndex: number;
   // 一覧ページなど、おすすめ（featured）を印として見せたいときに true
   showPin?: boolean;
 }
-const { text, catIndex, showPin = false } = Astro.props;
+const { text, showPin = false } = Astro.props;
 const { title, category, summary, image, featured } = text.data;
 ---
-<li class="card" data-cat={catIndex % 5}>
+<li class="card" style={catStyle(category)}>
   {showPin && featured && (
     <span class="pin" title="おすすめ" aria-label="おすすめのテキスト">📌</span>
   )}

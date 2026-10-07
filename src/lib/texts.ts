@@ -44,5 +44,8 @@ export function toolSummary(texts: Text[]): { name: string; count: number }[] {
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 }
 
+// 分類の色。CSS の --cat に渡す
+export const catStyle = (category: string) => `--cat: ${SITE.categoryColors[category] ?? '#a8a29e'}`;
+
 export const textUrl = (t: Text) => `${import.meta.env.BASE_URL}texts/${t.id}/`;
 export const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
