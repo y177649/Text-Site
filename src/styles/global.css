@@ -37,7 +37,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
 header.site { padding: 24px 0; }
 header.site a { color: var(--text); text-decoration: none; font-weight: 700; }
-footer.site { border-top: 1px solid var(--line); margin-top: 64px; padding: 24px 0 40px; color: var(--muted); font-size: .875rem; }
+/* フッターは線で区切らず余白で区切る（下端の丸を横切る線が出ないように） */
+footer.site { margin-top: 96px; padding: 0 0 48px; color: var(--muted); font-size: .875rem; }
 footer.site nav { display: flex; gap: 16px; flex-wrap: wrap; }
 h1 { font-size: clamp(1.6rem, 4vw, 2.25rem); line-height: 1.35; margin: 0 0 16px; letter-spacing: .01em; }
 h2 { font-size: 1.25rem; margin: 56px 0 16px; }
@@ -45,33 +46,24 @@ h2 { font-size: 1.25rem; margin: 56px 0 16px; }
 .hero { padding: 24px 0 8px; }
 
 /* ── 背景の丸 ─────────────────────────────────────────────
-   アイコンと同じく、大きな丸がページの端で一部だけ見える。左右の丸は本文の列（--max）の外側の余白に収め、
-   文字にかからないようにしている。--edge は「画面の端から丸が見えている幅」。 */
-.circles { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
-  --edge: max(48px, calc((100vw - var(--max)) / 2 - 16px)); }
-.circles span { position: absolute; border-radius: 58% 42% 46% 54% / 52% 60% 40% 48%; }
-/* 左上：ピンク＋水色 */
-.circles span:nth-child(1) { top: -140px; left: calc(var(--edge) - 460px); width: 460px; height: 420px; background: var(--c-pink); }
-.circles span:nth-child(2) { top: 170px; left: calc(var(--edge) - 170px); width: 150px; height: 140px; background: var(--c-sky); border-radius: 50%; }
-/* 上：黄色（上端で切れる） */
-.circles span:nth-child(3) { top: -300px; left: 58%; width: 420px; height: 400px; background: var(--c-yellow); }
-/* 右上：ティール＋紺 */
-.circles span:nth-child(4) { top: 300px; right: calc(var(--edge) - 440px); width: 440px; height: 420px; background: var(--c-teal); }
-.circles span:nth-child(5) { top: 220px; right: calc(var(--edge) - 470px); width: 420px; height: 440px; background: var(--c-navy);
+   アイコンのパレットの大きな丸を5つだけ、視線の流れ（Z型：左上→右上→左下→右下）の角に置く。
+   色は淡い色（白と混ぜた tint）にして背景に退かせ、本文・カード・分類の色より目立たせない（60-30-10 の考え方）。
+   重なった所は multiply で少し濃くなり、アイコンの「重なる色面」に近づく。 */
+.circles { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; --tint: 38%; }
+.circles span { position: absolute; border-radius: 58% 42% 46% 54% / 52% 60% 40% 48%; mix-blend-mode: multiply;
+  background: color-mix(in srgb, var(--c) var(--tint), white); }
+/* ① 左上（視線の起点）：小さめの水色。サイト名の横 */
+.circles span:nth-child(1) { --c: var(--c-sky); top: -90px; left: -110px; width: 300px; height: 280px; border-radius: 50%; }
+/* ② 右上（Z の1本目の終点）：いちばん大きい黄色。見出しから右へ視線を引く */
+.circles span:nth-child(2) { --c: var(--c-yellow); top: -260px; right: -220px; width: min(70vw, 720px); aspect-ratio: 1 / .95; }
+/* ③ 左（Z の斜線の途中）：ピンク。カード列の左で斜めの流れをつなぐ */
+.circles span:nth-child(3) { --c: var(--c-pink); top: 38%; left: -320px; width: 560px; height: 540px; }
+/* ④⑤ 右下（Z の終点）：ティールと紺を重ねる（アイコンと同じ組み合わせ）。下端で切れる */
+.circles span:nth-child(4) { --c: var(--c-teal); bottom: -260px; right: 8%; width: 560px; height: 520px; }
+.circles span:nth-child(5) { --c: var(--c-navy); --tint: 30%; bottom: -340px; right: -200px; width: 600px; height: 620px;
   border-radius: 46% 54% 58% 42% / 40% 48% 52% 60%; }
-/* 左中：オレンジ */
-.circles span:nth-child(6) { top: 46%; left: calc(var(--edge) - 480px); width: 480px; height: 460px; background: var(--c-orange); }
-/* 右下：ピンク＋オレンジ */
-.circles span:nth-child(7) { top: 62%; right: calc(var(--edge) - 320px); width: 320px; height: 360px; background: var(--c-pink); }
-.circles span:nth-child(8) { top: 78%; right: calc(var(--edge) - 420px); width: 440px; height: 420px; background: var(--c-orange); }
-/* 下：黄色（左下）とティール＋紺（下端で切れる） */
-.circles span:nth-child(9) { bottom: -260px; left: calc(var(--edge) - 460px); width: 460px; height: 480px; background: var(--c-yellow); }
-.circles span:nth-child(10) { bottom: -320px; left: 34%; width: 420px; height: 420px; background: var(--c-teal); }
-.circles span:nth-child(11) { bottom: -360px; left: 46%; width: 440px; height: 460px; background: var(--c-navy);
-  border-radius: 46% 54% 58% 42% / 40% 48% 52% 60%; }
-/* 画面が狭いと丸が本文に重なるので薄くする */
-@media (max-width: 1100px) { .circles { opacity: .45; } }
-@media (max-width: 720px) { .circles { opacity: .22; } }
+/* 画面が狭いと丸が本文の下に入るので、さらに薄くする */
+@media (max-width: 720px) { .circles { --tint: 22%; } .circles span:nth-child(3) { display: none; } }
 
 /* ── カード ── */
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); list-style: none; padding: 0; margin: 0; }

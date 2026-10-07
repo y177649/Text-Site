@@ -8,8 +8,7 @@ export const SITE = {
   github: 'https://github.com/y177649',
   // About に出す短い事実（1行ずつ）
   about: [
-    'リタリコワンダーのメンターとして作った教材テキスト',
-    '作成：Yuichiro Sato',
+    '作成者：Yuichiro Sato',
   ],
   // 分類の色（カード上端の線・タグの枠・詳細ページの見出しの線だけに使う）。
   // ここに無い分類はグレー。色はアイコンのパレットから選ぶ。
