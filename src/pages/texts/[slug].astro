@@ -18,17 +18,18 @@ export async function getStaticPaths() {
 }
 
 const { text, prev, next, catIndex } = Astro.props;
-const { title, category, summary, image, url } = text.data;
+const { title, category, summary, image, url, tools } = text.data;
 const { Content } = await render(text);
 ---
 <Base title={title} description={summary} image={image}>
   <article data-cat={catIndex % 5}>
-    <a class="back" href={`${import.meta.env.BASE_URL}#cat-${catIndex}`}>← 一覧へ</a>
+    <a class="back" href={`${import.meta.env.BASE_URL}texts/#cat-${catIndex}`}>← すべてのテキスト</a>
     <h1>{title}</h1>
     <p class="lead">{summary}</p>
     {image && <img class="hero-image" src={assetUrl(image)} alt={`${title}の完成イメージ`} />}
     <dl>
       <dt>分類</dt><dd>{category}</dd>
+      {tools.length > 0 && <><dt>使うもの</dt><dd>{tools.join(' / ')}</dd></>}
     </dl>
     <!-- data-text-id の付いたリンクを押したときだけ利用を記録する（src/scripts/track.ts） -->
     {url
