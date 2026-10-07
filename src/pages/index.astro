@@ -6,8 +6,10 @@ import { SITE } from '../site';
 
 const texts = await getTexts();
 const groups = groupByCategory(texts);
-const featured = texts.filter((t) => t.data.featured); // おすすめ。トップに常にカードで出す
-const others = texts.filter((t) => !t.data.featured);
+// おすすめ：featured: true を先に、SITE.featuredCount 枚になるまで残りから順に埋める。あふれた分は「その他」
+const ordered = [...texts.filter((t) => t.data.featured), ...texts.filter((t) => !t.data.featured)];
+const featured = ordered.slice(0, SITE.featuredCount);
+const others = ordered.slice(SITE.featuredCount);
 const othersPreview = others.slice(0, 3); // その他のテキストは3件だけ見せる
 const tools = toolSummary(texts);
 const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
