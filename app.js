@@ -97,37 +97,61 @@
     return order.map(function (name) { return { name: name, count: counts[name] }; });
   }
 
+  function card(text, catIndex) {
+    var item = el("li", "card");
+    // 分類の色はパレットを順に回す。分類が増えても CSS の変更は要らない。
+    item.dataset.cat = String(catIndex % 5);
+
+    if (text.image) {
+      var img = el("img", "thumb");
+      img.src = text.image;
+      img.alt = "";
+      img.loading = "lazy";
+      img.decoding = "async";
+      item.appendChild(img);
+    }
+
+    var body = el("div", "body");
+    var meta = el("div", "meta");
+    meta.appendChild(el("span", "tag", text.category));
+    body.appendChild(meta);
+
+    var h3 = el("h3");
+    if (text.url) {
+      // カード全体を押せるようにする（リンクは見出しの1つだけ。CSS の ::after で広げる）
+      var link = el("a", null, text.title);
+      link.href = text.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.addEventListener("click", function () {
+        record(text.id);
+      });
+      h3.appendChild(link);
+    } else {
+      h3.textContent = text.title;
+      item.classList.add("is-disabled");
+    }
+    body.appendChild(h3);
+    body.appendChild(el("p", null, text.summary));
+    body.appendChild(el("span", "action", text.url ? "テキストを開く →" : "準備中"));
+    item.appendChild(body);
+    return item;
+  }
+
   function render() {
-    var list = document.getElementById("cards");
     var cats = categories();
-    var catIndex = cats.map(function (c) { return c.name; });
     document.getElementById("lead").textContent =
       cats.map(function (c) { return c.name + c.count + "本"; }).join("・") +
       "。カードを押すとテキストが開きます。";
 
-    config.texts.forEach(function (text, index) {
-      var item = el("li");
-      var card = el(text.url ? "a" : "div", "card");
-      if (text.url) {
-        card.href = text.url;
-        card.target = "_blank";
-        card.rel = "noopener noreferrer";
-        card.addEventListener("click", function () {
-          record(text.id);
-        });
-      } else {
-        card.classList.add("is-disabled");
-        card.setAttribute("aria-disabled", "true");
-      }
-      // 色は並び順・カテゴリ順でパレットを順に回す。テキストやカテゴリが増えても CSS の変更は要らない。
-      card.dataset.color = String(index % 5);
-      card.dataset.tag = String(catIndex.indexOf(text.category) % 5);
-      card.appendChild(el("span", "card-category", text.category));
-      card.appendChild(el("span", "card-title", text.title));
-      card.appendChild(el("span", "card-summary", text.summary));
-      card.appendChild(el("span", "card-action", text.url ? "テキストを開く" : "準備中"));
-      item.appendChild(card);
-      list.appendChild(item);
+    var root = document.getElementById("sections");
+    cats.forEach(function (cat, catIndex) {
+      root.appendChild(el("h2", null, cat.name));
+      var grid = el("ul", "grid");
+      config.texts.forEach(function (text) {
+        if (text.category === cat.name) grid.appendChild(card(text, catIndex));
+      });
+      root.appendChild(grid);
     });
   }
 

@@ -53,10 +53,10 @@ assert.deepEqual([...total.byThreshold], [4, 4, 4, 4, 3, 3]);
 assert.ok(find(report, "2026-10", "3dp-keycap-toy", "general"));
 
 // referrer が途中で general → wonder に変わっても、同じ端末・同じテキストとして判定する。
-const mixed = buildReport([ev(0, "pc-c", "lego-6wd", "general"), ev(5, "pc-c", "lego-6wd", "wonder")], [90]);
-assert.deepEqual([...find(mixed, "全期間", "lego-6wd", "general").byThreshold], [1]);
-assert.equal(find(mixed, "全期間", "lego-6wd", "wonder").byThreshold[0], 0);
-assert.equal(find(mixed, "全期間", "lego-6wd", "wonder").opens, 1);
+const mixed = buildReport([ev(0, "pc-c", "lego-kaidan-car", "general"), ev(5, "pc-c", "lego-kaidan-car", "wonder")], [90]);
+assert.deepEqual([...find(mixed, "全期間", "lego-kaidan-car", "general").byThreshold], [1]);
+assert.equal(find(mixed, "全期間", "lego-kaidan-car", "wonder").byThreshold[0], 0);
+assert.equal(find(mixed, "全期間", "lego-kaidan-car", "wonder").opens, 1);
 
 // 開いた間隔の内訳（同じ端末・同じテキストの連続する2回）
 const gachaGaps = report.gaps.find((g) => g.textId === "lego-gacha");

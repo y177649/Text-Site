@@ -7,7 +7,8 @@ window.TEXT_SITE_CONFIG = {
   // テキストを追加するときは、この配列に1件足すだけでよい（Apps Script の変更は不要）。
   //   id       記録に残る text_id。英小文字・数字・ハイフンのみ。一度使ったら変えない
   //            （変えると過去の記録と別のテキストとして数えられる）。
-  //   category 「レゴ」などの分類。新しい分類名を書けばそのまま増える。
+  //   category 「レゴ」などの分類。新しい分類名を書けば、見出しごと増える。
+  //   image    カードの写真（images/ に置く。横長がよい）。空なら写真なし。
   //   url      Google ドライブ等の共有リンク。空にすると「準備中」と表示される。
   texts: [
     {
@@ -15,6 +16,7 @@ window.TEXT_SITE_CONFIG = {
       category: "レゴ",
       title: "ステアリング機構",
       summary: "説明書作成ソフトで作ったオリジナルの組み立て説明書。",
+      image: "images/lego-steering.jpg",
       url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp=sharing",
     },
     {
@@ -22,13 +24,15 @@ window.TEXT_SITE_CONFIG = {
       category: "レゴ",
       title: "ガチャガチャ",
       summary: "ガチャガチャを再現する作品の組み立て説明書。",
+      image: "images/lego-gacha.jpg",
       url: "https://drive.google.com/file/d/1RW1wfNa2yObzp6-nFiRq00NT4VHAgB_W/view?usp=sharing",
     },
     {
-      id: "lego-6wd",
+      id: "lego-kaidan-car",
       category: "レゴ",
-      title: "6輪駆動車",
-      summary: "6つのタイヤが全部同時に動く車の組み立て説明書。",
+      title: "階段を登る車",
+      summary: "階段を登る車の組み立て説明書。",
+      image: "images/lego-kaidan-car.jpg",
       url: "https://drive.google.com/file/d/1UV-jhUzh4TIpLnmPixSfiQvlUDcS-VMq/view?usp=sharing",
     },
     {
@@ -36,6 +40,7 @@ window.TEXT_SITE_CONFIG = {
       category: "3Dプリンター",
       title: "テクニックピンがはまる部品",
       summary: "穴の入口に段を付け、レゴのテクニックピンがカチッとはまる部品を作る。",
+      image: "images/3dp-technic-pin.png",
       url: "https://docs.google.com/presentation/d/1I62SDpDqJE4kUGytpGlorqWJlOVnnnA04ZAxyOWacGA/edit?usp=sharing",
     },
     {
@@ -43,6 +48,7 @@ window.TEXT_SITE_CONFIG = {
       category: "3Dプリンター",
       title: "キーボードのキーのおもちゃ",
       summary: "寸法が難しいはまる部分は用意済み。見た目の部分を自由に作る。",
+      image: "images/3dp-keycap-toy.png",
       url: "https://docs.google.com/presentation/d/16qySR_juk3eSwxxC8jkl7UM9rJU9SEMDVx8NtVLs4EQ/edit?usp=sharing",
     },
   ],
