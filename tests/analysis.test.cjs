@@ -1,4 +1,4 @@
-// node tests/analysis.test.js で実行する。gas/Analysis.gs の純粋な計算部分を検証する。
+// node tests/analysis.test.cjs で実行する。gas/Analysis.gs の純粋な計算部分を検証する。
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");

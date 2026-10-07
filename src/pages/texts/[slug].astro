@@ -1,0 +1,43 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { assetUrl, getTexts, groupByCategory, textUrl } from '../../lib/texts';
+
+export async function getStaticPaths() {
+  const texts = await getTexts();
+  const groups = groupByCategory(texts);
+  return texts.map((text, i) => ({
+    params: { slug: text.id },
+    props: {
+      text,
+      prev: texts[i - 1],
+      next: texts[i + 1],
+      catIndex: groups.find((g) => g.name === text.data.category)!.index,
+    },
+  }));
+}
+
+const { text, prev, next, catIndex } = Astro.props;
+const { title, category, summary, image, url } = text.data;
+const { Content } = await render(text);
+---
+<Base title={title} description={summary} image={image}>
+  <article data-cat={catIndex % 5}>
+    <a class="back" href={`${import.meta.env.BASE_URL}#cat-${catIndex}`}>← 一覧へ</a>
+    <h1>{title}</h1>
+    <p class="lead">{summary}</p>
+    {image && <img class="hero-image" src={assetUrl(image)} alt={`${title}の完成イメージ`} />}
+    <dl>
+      <dt>分類</dt><dd>{category}</dd>
+    </dl>
+    <!-- data-text-id の付いたリンクを押したときだけ利用を記録する（src/scripts/track.ts） -->
+    {url
+      ? <a class="open" href={url} target="_blank" rel="noopener noreferrer" data-text-id={text.id}>テキストを開く →</a>
+      : <span class="open is-disabled">テキストは準備中</span>}
+    <div class="body"><Content /></div>
+    <nav class="pager" aria-label="ほかのテキスト">
+      {prev ? <a href={textUrl(prev)}>← {prev.data.title}</a> : <span />}
+      {next ? <a href={textUrl(next)}>{next.data.title} →</a> : <span />}
+    </nav>
+  </article>
+</Base>

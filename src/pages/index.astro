@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import TextCard from '../components/TextCard.astro';
+import { getTexts, groupByCategory } from '../lib/texts';
+import { SITE } from '../site';
+
+const groups = groupByCategory(await getTexts());
+const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
+---
+<Base>
+  <section class="hero">
+    <h1>{SITE.headline}</h1>
+    <p class="lead">{lead}。カードを押すと、ねらいや注意点とテキストへのリンクが見られます。</p>
+  </section>
+
+  {groups.map((g) => (
+    <>
+      <h2 id={`cat-${g.index}`}>{g.name}</h2>
+      <ul class="grid">
+        {g.texts.map((text) => <TextCard text={text} catIndex={g.index} />)}
+      </ul>
+    </>
+  ))}
+</Base>
