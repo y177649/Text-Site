@@ -118,6 +118,12 @@ article dd { margin: 0; }
   font-weight: 700; text-decoration: none; }
 .open:hover { background: #44403c; }
 .open.is-disabled { background: var(--line); color: var(--muted); }
+.demo video { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #000; }
+.no-video { color: var(--muted); }
+.ask-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.ask-button { display: inline-block; padding: 8px 18px; border: 1px solid var(--text); border-radius: 999px; color: var(--text);
+  font-weight: 700; text-decoration: none; }
+.ask-button:hover { background: var(--line); }
 article h2 { font-size: 1.1rem; margin: 40px 0 8px; padding-top: 8px; border-top: 1px solid var(--line); }
 article ul { padding-left: 1.25em; }
 

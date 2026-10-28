@@ -23,6 +23,18 @@ export const SITE = {
   } as Record<string, string>,
   // 分類の表示順。ここに無い分類は後ろに名前順で並ぶ（分類を増やすときに書き足さなくても動く）。
   categoryOrder: ['レゴ', '3Dプリンター'],
+  // 相談フォーム（Google フォーム）。url が空のあいだは、ボタン・フッターのリンク・プライバシーポリシーのフォームの節を出さない。
+  // url は「事前入力したURL」の ? より前（…/viewform）。entry ID（例: entry.123456789）も事前入力したURLから写す。
+  form: {
+    url: '',
+    // 種別の entry ID。種別の値はフォームの選択肢と一字一句同じにする（違うと事前入力されない）
+    kindEntry: '',
+    kinds: ['問題を報告', 'お問い合わせ', 'リクエスト'],
+    // 対象のテキストの entry ID。詳細ページのボタンからはテキストの題名が入る
+    textEntry: '',
+    // フォームを足した日（プライバシーポリシーの改定日に出す。例: 2026年11月1日）
+    since: '',
+  },
   // 利用記録の送り先（Google Apps Script のウェブアプリ /exec）。空なら記録しない。
   endpoint:
     'https://script.google.com/macros/s/AKfycbwIgS7tau6_EcByDvRDpoHTR1iHVwMuSqf_JY8jJpRjo7ZhhYw5LkG6SZsuzzaH5KW9VA/exec',

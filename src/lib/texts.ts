@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { SITE } from '../site';
 
@@ -16,6 +17,9 @@ export async function getTexts(): Promise<Text[]> {
   for (const t of texts) {
     if (!TEXT_ID.test(t.id)) {
       throw new Error(`src/content/texts/${t.id}.md: ファイル名は英小文字・数字・ハイフンのみ（記録の text_id になるため）`);
+    }
+    if (t.data.video && !existsSync(`public/${t.data.video.replace(/^\//, '')}`)) {
+      throw new Error(`src/content/texts/${t.id}.md: 動画 public/${t.data.video} が無い`);
     }
   }
   return texts.sort((a, b) =>
@@ -49,3 +53,14 @@ export const catStyle = (category: string) => `--cat: ${SITE.categoryColors[cate
 
 export const textUrl = (t: Text) => `${import.meta.env.BASE_URL}texts/${t.id}/`;
 export const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
+// 相談フォームを開くURL。種別とテキストの題名を事前入力する。フォームが未設定なら null
+export function formUrl(kind?: string, textTitle?: string): string | null {
+  const f = SITE.form;
+  if (!f.url) return null;
+  const u = new URL(f.url);
+  u.searchParams.set('usp', 'pp_url');
+  if (kind && f.kindEntry) u.searchParams.set(f.kindEntry, kind);
+  if (textTitle && f.textEntry) u.searchParams.set(f.textEntry, textTitle);
+  return u.toString();
+}

@@ -1,7 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { assetUrl, catStyle, getTexts, groupByCategory, textUrl } from '../../lib/texts';
+import { SITE } from '../../site';
+import { assetUrl, catStyle, formUrl, getTexts, groupByCategory, textUrl } from '../../lib/texts';
 
 export async function getStaticPaths() {
   const texts = await getTexts();
@@ -18,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { text, prev, next, catIndex } = Astro.props;
-const { title, category, summary, image, url, tools } = text.data;
+const { title, category, summary, image, url, video, tools } = text.data;
 const { Content } = await render(text);
 ---
 <Base title={title} description={summary} image={image}>
@@ -35,10 +36,31 @@ const { Content } = await render(text);
     {url
       ? <a class="open" href={url} target="_blank" rel="noopener noreferrer" data-text-id={text.id}>テキストを開く →</a>
       : <span class="open is-disabled">テキストは準備中</span>}
+    <section class="demo">
+      <h2>動くようす</h2>
+      {video
+        ? <video src={assetUrl(video)} muted autoplay loop playsinline controls preload="metadata" aria-label={`${title}が動くようす`} />
+        : <p class="no-video">動画なし</p>}
+    </section>
     <div class="body"><Content /></div>
+    {formUrl() && (
+      <section class="ask">
+        <h2>このテキストについて連絡する</h2>
+        <div class="ask-buttons">
+          {SITE.form.kinds.map((kind) => <a class="ask-button" href={formUrl(kind, title)} target="_blank" rel="noopener noreferrer">{kind}</a>)}
+        </div>
+      </section>
+    )}
     <nav class="pager" aria-label="ほかのテキスト">
       {prev ? <a href={textUrl(prev)}>← {prev.data.title}</a> : <span />}
       {next ? <a href={textUrl(next)}>{next.data.title} →</a> : <span />}
     </nav>
   </article>
 </Base>
+
+<script>
+  // 動きを減らす設定の端末では、動画を自動再生しない（再生ボタンで見られる）
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[autoplay]').forEach((v) => (v as HTMLVideoElement).pause());
+  }
+</script>

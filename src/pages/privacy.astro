@@ -1,14 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site';
+import { formUrl } from '../lib/texts';
 
 // 記録の中身を変えたら（src/scripts/track.ts・gas/Code.gs）、このページも必ず直して制定日の下に改定日を書く。
 const repo = 'https://github.com/y177649/Text-Site';
+// 相談フォームの節は、src/site.ts の form.url を設定したときだけ出る
+const form = formUrl();
 ---
 <Base title="プライバシーポリシー" description="このサイトで記録している情報と、その扱いについて。">
   <article class="policy">
     <h1>プライバシーポリシー</h1>
-    <p class="lead">制定日：2026年10月7日</p>
+    <p class="lead">制定日：2026年10月7日{form && SITE.form.since && <><br />改定日：{SITE.form.since}</>}</p>
 
     <p>このサイト（{SITE.title}）では、テキストがどれくらい使われているかを知るために、<strong>テキストが開かれた回数を記録しています</strong>。記録する内容と、その扱いは次のとおりです。</p>
 
@@ -22,7 +25,20 @@ const repo = 'https://github.com/y177649/Text-Site';
     </ul>
 
     <h2>記録しないもの</h2>
-    <p>名前、メールアドレス、Google アカウント、学校名・教室名など、あなたを直接知ることができる情報は記録しません。このサイトは Cookie、広告、アクセス解析サービスを使っていません。</p>
+    <p>{form ? 'テキストを開いた記録には、' : ''}名前、メールアドレス、Google アカウント、学校名・教室名など、あなたを直接知ることができる情報は{form ? '含めません（相談フォームは下の「相談フォーム」のとおり別に扱います）' : '記録しません'}。このサイトは Cookie、広告、アクセス解析サービスを使っていません。</p>
+
+    {form && <>
+      <h2>相談フォーム</h2>
+      <p>各テキストのページとページ下の「お問い合わせ・報告」から、<a href={form}>Google フォーム</a>で問題の報告・お問い合わせ・リクエストを受け付けています。テキストを開いた記録とは別のもので、送ったときだけ次の内容を受け取ります。</p>
+      <ul>
+        <li>種別（問題を報告・お問い合わせ・リクエスト）</li>
+        <li>教室名</li>
+        <li>ニックネーム</li>
+        <li>対象のテキスト</li>
+        <li>内容</li>
+      </ul>
+      <p>受け取った内容は作成者の Google アカウントに保存し、作成者だけが見られます。テキストの修正と、送ってくれた人への返事のためだけに使い、公表や第三者への提供はしません。対応が済んで不要になったものは削除します。</p>
+    </>}
 
     <h2>使う目的</h2>
     <p>テキストがどれくらい使われているかを把握し、テキストの改善や新しいテキストづくりに役立てるためです。それ以外の目的には使いません。</p>
@@ -37,11 +53,12 @@ const repo = 'https://github.com/y177649/Text-Site';
     <h2>外部のサービス</h2>
     <ul>
       <li>このサイトは GitHub Pages で公開しています。GitHub がサーバーの運用のためにアクセスの情報を扱うことがあります（<a href="https://docs.github.com/ja/site-policy/privacy-policies/github-general-privacy-statement">GitHub のプライバシーステートメント</a>）。</li>
+      {form && <li>相談フォームは Google フォームで開きます。送った内容は Google のサーバーに保存され、<a href="https://policies.google.com/privacy?hl=ja">Google のプライバシーポリシー</a>が適用されます。</li>}
       <li>テキスト本体は Google ドライブ・Google スライドで開きます。開いた先のページには <a href="https://policies.google.com/privacy?hl=ja">Google のプライバシーポリシー</a>が適用されます。</li>
     </ul>
 
     <h2>記録の削除について</h2>
-    <p>記録には、あなたを直接知ることができる情報が含まれていないため、特定の人の記録だけを探して開示・削除することはできません。</p>
+    <p>{form ? 'テキストを開いた記録には、' : '記録には、'}あなたを直接知ることができる情報が含まれていないため、特定の人の記録だけを探して開示・削除することはできません。</p>
 
     <h2>お問い合わせ</h2>
     <p>このポリシーについてのお問い合わせは、<a href={`${repo}/issues`}>GitHub のリポジトリ</a>からお願いします。</p>

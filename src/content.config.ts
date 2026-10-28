@@ -17,6 +17,8 @@ const texts = defineCollection({
     image: z.string().optional(),
     // テキスト本体（Google ドライブ等の共有リンク）。無ければ「準備中」
     url: z.string().url().optional(),
+    // 動くようすの動画（public/ からのパス。例: videos/lego-gacha.mp4）。無ければ「動画なし」
+    video: z.string().optional(),
     // 作るときに使う道具・ソフト（トップの「使う道具・ソフト」に集計される）
     tools: z.array(z.string()).default([]),
     // true ならトップのカード（おすすめ）、false なら「その他のテキスト」リスト

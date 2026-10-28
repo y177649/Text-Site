@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { SITE } from '../site';
+import { formUrl } from '../lib/texts';
 
 interface Props {
   title?: string;
@@ -42,6 +43,7 @@ const base = import.meta.env.BASE_URL;
         <nav>
           <span>{SITE.author}</span>
           <a href={SITE.github}>GitHub</a>
+          {formUrl() && <a href={formUrl()} target="_blank" rel="noopener noreferrer">お問い合わせ・報告</a>}
           <a href={`${base}privacy/`}>プライバシーポリシー</a>
         </nav>
       </div>
