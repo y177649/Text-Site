@@ -26,14 +26,14 @@ export const SITE = {
   // 相談フォーム（Google フォーム）。url が空のあいだは、ボタン・フッターのリンク・プライバシーポリシーのフォームの節を出さない。
   // url は「事前入力したURL」の ? より前（…/viewform）。entry ID（例: entry.123456789）も事前入力したURLから写す。
   form: {
-    url: '',
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSfFAr_FznaVUNFrKzWGOhq4HGcuc8xVT6Dmpe4QPl9SmrNnqw/viewform',
     // 種別の entry ID。種別の値はフォームの選択肢と一字一句同じにする（違うと事前入力されない）
-    kindEntry: '',
+    kindEntry: 'entry.1018603387',
     kinds: ['問題を報告', 'お問い合わせ', 'リクエスト'],
     // 対象のテキストの entry ID。詳細ページのボタンからはテキストの題名が入る
-    textEntry: '',
+    textEntry: 'entry.2017898040',
     // フォームを足した日（プライバシーポリシーの改定日に出す。例: 2026年11月1日）
-    since: '',
+    since: '2026年11月5日',
   },
   // 利用記録の送り先（Google Apps Script のウェブアプリ /exec）。空なら記録しない。
   endpoint:
