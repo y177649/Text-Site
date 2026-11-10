@@ -13,7 +13,7 @@ const MIN = 60 * 1000;
 const T0 = Date.UTC(2026, 9, 1, 1, 0);
 
 function ev(min, deviceId, textId, referrer, month) {
-  return { time: T0 + min * MIN, deviceId, textId, referrer: referrer || "wonder", month: month || "2026-10" };
+  return { time: T0 + min * MIN, deviceId, textId, referrer: referrer || "share", month: month || "2026-10" };
 }
 
 function find(report, period, textId, referrer) {
@@ -40,7 +40,7 @@ const events = [
 const thresholds = [2, 30, 60, 90, 120, 180];
 const report = buildReport(events, thresholds);
 
-const gacha = find(report, "全期間", "lego-gacha", "wonder");
+const gacha = find(report, "全期間", "lego-gacha", "share");
 assert.equal(gacha.opens, 4);
 // 2/30/60/90分:2+1（10.5分は2分以内で同一）, 120/180分:1+1
 assert.deepEqual([...gacha.byThreshold], [3, 3, 3, 3, 2, 2]);
@@ -52,11 +52,11 @@ assert.equal(total.opens, 5);
 assert.deepEqual([...total.byThreshold], [4, 4, 4, 4, 3, 3]);
 assert.ok(find(report, "2026-10", "3dp-keycap-toy", "general"));
 
-// referrer が途中で general → wonder に変わっても、同じ端末・同じテキストとして判定する。
-const mixed = buildReport([ev(0, "pc-c", "lego-kaidan-car", "general"), ev(5, "pc-c", "lego-kaidan-car", "wonder")], [90]);
+// referrer が途中で general → share に変わっても、同じ端末・同じテキストとして判定する。
+const mixed = buildReport([ev(0, "pc-c", "lego-kaidan-car", "general"), ev(5, "pc-c", "lego-kaidan-car", "share")], [90]);
 assert.deepEqual([...find(mixed, "全期間", "lego-kaidan-car", "general").byThreshold], [1]);
-assert.equal(find(mixed, "全期間", "lego-kaidan-car", "wonder").byThreshold[0], 0);
-assert.equal(find(mixed, "全期間", "lego-kaidan-car", "wonder").opens, 1);
+assert.equal(find(mixed, "全期間", "lego-kaidan-car", "share").byThreshold[0], 0);
+assert.equal(find(mixed, "全期間", "lego-kaidan-car", "share").opens, 1);
 
 // 開いた間隔の内訳（同じ端末・同じテキストの連続する2回）
 const gachaGaps = report.gaps.find((g) => g.textId === "lego-gacha");
