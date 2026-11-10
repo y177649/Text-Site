@@ -64,3 +64,18 @@ export function formUrl(kind?: string, textTitle?: string): string | null {
   if (textTitle && f.textEntry) u.searchParams.set(f.textEntry, textTitle);
   return u.toString();
 }
+
+// 題名を、ふりがな付きの部分（rt あり）とそのままの部分に分ける。ruby のキーは長いものから当てる
+export function rubySegments(title: string, ruby: Record<string, string>): { base: string; rt?: string }[] {
+  const keys = Object.keys(ruby).sort((a, b) => b.length - a.length);
+  const out: { base: string; rt?: string }[] = [];
+  let i = 0;
+  while (i < title.length) {
+    const k = keys.find((key) => title.startsWith(key, i));
+    if (k) { out.push({ base: k, rt: ruby[k] }); i += k.length; continue; }
+    const last = out[out.length - 1];
+    if (last && !last.rt) last.base += title[i]; else out.push({ base: title[i] });
+    i += 1;
+  }
+  return out;
+}

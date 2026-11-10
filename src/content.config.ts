@@ -13,6 +13,8 @@ const texts = defineCollection({
     title: z.string(),
     // 分類（例: レゴ / 3Dプリンター）。新しい名前を書けば見出しごと増える
     category: z.string(),
+    // 題名の漢字のふりがな（例: { 速: はや }）。題名の上に小さく出す
+    ruby: z.record(z.string(), z.string()).default({}),
     summary: z.string().max(80),
     // 写真（public/ からのパス。例: images/lego-gacha.jpg）
     image: z.string().optional(),

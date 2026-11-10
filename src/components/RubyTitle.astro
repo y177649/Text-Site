@@ -1,0 +1,8 @@
+---
+// 題名を、ふりがな（content の ruby）付きで出す
+import { rubySegments, type Text } from '../lib/texts';
+interface Props { text: Text }
+const { title, ruby } = Astro.props.text.data;
+const segs = rubySegments(title, ruby);
+---
+{segs.map((s) => (s.rt ? <ruby>{s.base}<rp>(</rp><rt>{s.rt}</rt><rp>)</rp></ruby> : s.base))}

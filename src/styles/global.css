@@ -83,11 +83,15 @@ h2 { font-size: 1.25rem; margin: 56px 0 16px; }
 .parts { color: var(--text); font-weight: 600; }
 .parts-count { font-weight: 700; }
 .stars { letter-spacing: 1px; white-space: nowrap; }
-.level-label { color: var(--muted); font-size: .85rem; }
+.level-pick summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+.level-pick summary::-webkit-details-marker { display: none; }
+.level-pick summary::after { content: '▾'; color: var(--muted); font-size: .8rem; }
+.level-pick[open] summary::after { content: '▴'; }
+.level-pick ul { list-style: none; padding: 8px 0 0; margin: 0; font-size: .85rem; color: var(--muted); }
+.level-pick li { display: grid; grid-template-columns: 4.5rem 1fr; gap: 8px; padding: 4px 0; }
+.level-pick li.is-current { color: var(--text); font-weight: 700; }
+rt { font-size: .45em; font-weight: 400; color: var(--muted); }
 .tech-tags { display: flex; flex-wrap: wrap; gap: 4px 12px; }
-.levels { margin-top: 24px; font-size: .9rem; }
-.levels summary { cursor: pointer; color: var(--muted); }
-.levels dl { grid-template-columns: 4.5rem 1fr; margin: 12px 0 0; }
 
 /* ── その他のテキスト ── */
 .list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); background: var(--surface); }

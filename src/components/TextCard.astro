@@ -1,5 +1,6 @@
 ---
 import { assetUrl, catStyle, textUrl, type Text } from '../lib/texts';
+import RubyTitle from './RubyTitle.astro';
 
 interface Props {
   text: Text;
@@ -16,7 +17,7 @@ const { title, category, summary, image, featured, parts, level } = text.data;
   {image && <img class="thumb" src={assetUrl(image)} alt="" loading="lazy" decoding="async" />}
   <div class="card-body">
     <div class="meta"><span class="tag">{category}</span>{level && <span class="stars" aria-label={`難しさ ${level}（4段階）`}>{'⭐'.repeat(level)}</span>}{parts && <span class="parts">{parts}パーツ</span>}</div>
-    <h3><a href={textUrl(text)}>{title}</a></h3>
+    <h3><a href={textUrl(text)}><RubyTitle text={text} /></a></h3>
     <p>{summary}</p>
   </div>
 </li>

@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import RubyTitle from '../../components/RubyTitle.astro';
 import { SITE } from '../../site';
 import { assetUrl, catStyle, formUrl, getTexts, groupByCategory, textUrl } from '../../lib/texts';
 
@@ -28,12 +29,19 @@ const lv = level ? SITE.levels.find((l) => l.stars === level) : undefined;
 <Base title={title} description={summary} image={image}>
   <article style={catStyle(category)}>
     <a class="back" href={`${import.meta.env.BASE_URL}texts/#cat-${catIndex}`}>← すべてのテキスト</a>
-    <h1>{title}</h1>
+    <h1><RubyTitle text={text} /></h1>
     <p class="lead">{summary}</p>
     {image && <img class="hero-image" src={assetUrl(image)} alt={`${title}の完成イメージ`} />}
     <dl>
       <dt>分類</dt><dd>{category}</dd>
-      <dt>難しさ</dt><dd>{lv ? <><span class="stars" aria-label={`難しさ ${lv.stars}（4段階）`}>{'⭐'.repeat(lv.stars)}</span> <span class="level-label">{lv.label}</span></> : '-'}</dd>
+      <dt>難しさ</dt><dd>{lv ? (
+        <details class="level-pick">
+          <summary><span class="stars" aria-label={`難しさ ${lv.stars}（4段階）。押すと目安が開く`}>{'⭐'.repeat(lv.stars)}</span></summary>
+          <ul>
+            {SITE.levels.map((l) => <li class={l.stars === lv.stars ? 'is-current' : undefined}><span class="stars">{'⭐'.repeat(l.stars)}</span>{l.label}（{l.minutes}分くらい）</li>)}
+          </ul>
+        </details>
+      ) : '-'}</dd>
       <dt>制作時間</dt><dd>{lv ? `${lv.minutes}分くらい` : '-'}</dd>
       <dt>パーツ数</dt><dd class="parts-count">{parts ? `${parts}パーツ` : '-'}</dd>
       <dt>技術</dt><dd>{techTags.length > 0 ? <span class="tech-tags">{techTags.map((t) => <span>#{t}</span>)}</span> : '-'}</dd>
@@ -53,12 +61,6 @@ const lv = level ? SITE.levels.find((l) => l.stars === level) : undefined;
       <h2>備考</h2>
       {hasNote ? <div class="body"><Content /></div> : <p>-</p>}
     </section>
-    <details class="levels">
-      <summary>難しさ・制作時間の目安</summary>
-      <dl>
-        {SITE.levels.map((l) => <><dt>{'⭐'.repeat(l.stars)}</dt><dd>{l.label}（{l.minutes}分くらい）</dd></>)}
-      </dl>
-    </details>
     {formUrl() && (
       <section class="ask">
         <h2>このテキストについて連絡する</h2>
@@ -68,8 +70,8 @@ const lv = level ? SITE.levels.find((l) => l.stars === level) : undefined;
       </section>
     )}
     <nav class="pager" aria-label="ほかのテキスト">
-      {prev ? <a href={textUrl(prev)}>← {prev.data.title}</a> : <span />}
-      {next ? <a href={textUrl(next)}>{next.data.title} →</a> : <span />}
+      {prev ? <a href={textUrl(prev)}>← <RubyTitle text={prev} /></a> : <span />}
+      {next ? <a href={textUrl(next)}><RubyTitle text={next} /> →</a> : <span />}
     </nav>
   </article>
 </Base>

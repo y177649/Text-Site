@@ -1,4 +1,5 @@
 ---
+import RubyTitle from '../components/RubyTitle.astro';
 import Base from '../layouts/Base.astro';
 import TextCard from '../components/TextCard.astro';
 import { getTexts, groupByCategory, textUrl, toolSummary } from '../lib/texts';
@@ -33,7 +34,7 @@ const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
           <li>
             <span class="y">{t.data.category}</span>
             <div>
-              <a href={textUrl(t)}>{t.data.title}</a>
+              <a href={textUrl(t)}><RubyTitle text={t} /></a>
               <p>{t.data.summary}</p>
             </div>
           </li>
