@@ -6,6 +6,7 @@ image: images/lego-steering.jpg
 url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp=sharing"
 video: videos/lego-steering.mp4
 order: 1
+parts: 95
 tools: [レゴ, Stud.io]
 featured: true
 ---

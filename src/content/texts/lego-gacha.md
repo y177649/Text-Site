@@ -6,6 +6,7 @@ image: images/lego-gacha.jpg
 url: "https://drive.google.com/file/d/1RW1wfNa2yObzp6-nFiRq00NT4VHAgB_W/view?usp=sharing"
 video: videos/lego-gacha.mp4
 order: 2
+parts: 144
 tools: [レゴ, Stud.io]
 featured: true
 ---
