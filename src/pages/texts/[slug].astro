@@ -19,8 +19,11 @@ export async function getStaticPaths() {
 }
 
 const { text, prev, next, catIndex } = Astro.props;
-const { title, category, summary, image, url, video, tools, parts } = text.data;
+const { title, category, summary, image, url, video, tools, parts, level, techTags } = text.data;
 const { Content } = await render(text);
+// 本文（Markdown）は備考だけ。空なら「-」
+const hasNote = (text.body ?? '').trim().length > 0;
+const lv = level ? SITE.levels.find((l) => l.stars === level) : undefined;
 ---
 <Base title={title} description={summary} image={image}>
   <article style={catStyle(category)}>
@@ -30,7 +33,10 @@ const { Content } = await render(text);
     {image && <img class="hero-image" src={assetUrl(image)} alt={`${title}の完成イメージ`} />}
     <dl>
       <dt>分類</dt><dd>{category}</dd>
-      {parts && <><dt>パーツ数</dt><dd class="parts-count">{parts}個</dd></>}
+      <dt>難しさ</dt><dd>{lv ? <><span class="stars" aria-label={`難しさ ${lv.stars}（4段階）`}>{'⭐'.repeat(lv.stars)}</span> <span class="level-label">{lv.label}</span></> : '-'}</dd>
+      <dt>制作時間</dt><dd>{lv ? `${lv.minutes}分くらい` : '-'}</dd>
+      <dt>パーツ数</dt><dd class="parts-count">{parts ? `${parts}個` : '-'}</dd>
+      <dt>技術</dt><dd>{techTags.length > 0 ? <span class="tech-tags">{techTags.map((t) => <span>#{t}</span>)}</span> : '-'}</dd>
       {tools.length > 0 && <><dt>使うもの</dt><dd>{tools.join(' / ')}</dd></>}
     </dl>
     <!-- data-text-id の付いたリンクを押したときだけ利用を記録する（src/scripts/track.ts） -->
@@ -43,7 +49,16 @@ const { Content } = await render(text);
         ? <video src={assetUrl(video)} muted autoplay loop playsinline controls preload="metadata" aria-label={`${title}が動くようす`} />
         : <p class="no-video">動画なし</p>}
     </section>
-    <div class="body"><Content /></div>
+    <section class="note">
+      <h2>備考</h2>
+      {hasNote ? <div class="body"><Content /></div> : <p>-</p>}
+    </section>
+    <details class="levels">
+      <summary>難しさ・制作時間の目安</summary>
+      <dl>
+        {SITE.levels.map((l) => <><dt>{'⭐'.repeat(l.stars)}</dt><dd>{l.label}（{l.minutes}分くらい）</dd></>)}
+      </dl>
+    </details>
     {formUrl() && (
       <section class="ask">
         <h2>このテキストについて連絡する</h2>

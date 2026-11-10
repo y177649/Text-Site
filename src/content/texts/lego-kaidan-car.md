@@ -7,22 +7,8 @@ url: "https://drive.google.com/file/d/1UV-jhUzh4TIpLnmPixSfiQvlUDcS-VMq/view?usp
 video: videos/lego-kaidan-car.mp4
 order: 3
 parts: 78
+level: 2
+techTags: [ギア, 動力移動, アイコンブロック]
 tools: [レゴ, Stud.io]
 featured: false
 ---
-
-## ねらい
-
-準備中
-
-## できること
-
-準備中
-
-## このテキストで学べること
-
-準備中
-
-## 注意点
-
-準備中

@@ -7,22 +7,8 @@ url: "https://drive.google.com/file/d/1RW1wfNa2yObzp6-nFiRq00NT4VHAgB_W/view?usp
 video: videos/lego-gacha.mp4
 order: 2
 parts: 144
+level: 4
+techTags: [ギア, 動力移動, ワードブロック]
 tools: [レゴ, Stud.io]
 featured: true
 ---
-
-## ねらい
-
-準備中
-
-## できること
-
-準備中
-
-## このテキストで学べること
-
-準備中
-
-## 注意点
-
-準備中

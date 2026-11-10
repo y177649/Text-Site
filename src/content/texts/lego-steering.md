@@ -7,26 +7,10 @@ url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp
 video: videos/lego-steering.mp4
 order: 1
 parts: 95
+level: 2
+techTags: [ギア, 動力移動, ステアリング]
 tools: [レゴ, Stud.io]
 featured: true
 ---
 
-## 備考
-
 23ページのペグ2個は不要です。付けずに進めてください。
-
-## ねらい
-
-準備中
-
-## できること
-
-準備中
-
-## このテキストで学べること
-
-準備中
-
-## 注意点
-
-準備中
