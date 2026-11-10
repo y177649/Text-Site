@@ -8,7 +8,7 @@ const groups = groupByCategory(await getTexts()); // 分類ごと。全件
 <Base title="すべてのテキスト" description="教材テキストの一覧。">
   <a class="back" href={`${import.meta.env.BASE_URL}#others`}>← トップへ戻る</a>
   <h1>すべてのテキスト</h1>
-  <p class="lead">分類ごとの一覧。カードの⭐（難しさ）とパーツ数を見て、その子に合うテキストを選べます。</p>
+  <p class="lead">分類ごとの一覧。</p>
   {groups.map((g) => (
     <>
       <h2 id={`cat-${g.index}`}>{g.name}</h2>
