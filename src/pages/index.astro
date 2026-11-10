@@ -13,12 +13,11 @@ const featured = ordered.slice(0, SITE.featuredCount);
 const others = ordered.slice(SITE.featuredCount);
 const othersPreview = others.slice(0, 3); // その他のテキストは3件だけ見せる
 const tools = toolSummary(texts);
-const lead = groups.map((g) => `${g.name}${g.texts.length}本`).join('・');
 ---
 <Base>
   <section class="hero">
     <h1>{SITE.headline}</h1>
-    <p class="lead">{lead}。カードの⭐（難しさ）とパーツ数を見て、その子に合うテキストを選べます。</p>
+    <p class="lead">はじめての子も、もっと作りたい子も。</p>
   </section>
 
   <h2 id="texts">おすすめのテキスト</h2>
