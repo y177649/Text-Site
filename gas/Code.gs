@@ -30,7 +30,7 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    // 時刻は端末の時計ではなく受信時刻。教室の PC の時計がずれていても揃う。
+    // 時刻は端末の時計ではなく受信時刻。共用の PC の時計がずれていても揃う。
     sheet_(RAW_SHEET, RAW_HEADER).appendRow([new Date(), data.device_id, data.text_id, data.referrer]);
   } finally {
     lock.releaseLock();
