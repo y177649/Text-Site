@@ -8,6 +8,6 @@ order: 4
 parts: 28
 level: 1
 techTags: [ギア, 動力移動, ステアリング, ワードブロック]
-tools: [レゴ, Stud.io]
+tools: [レゴ]
 featured: false
 ---

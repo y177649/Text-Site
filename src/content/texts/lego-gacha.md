@@ -9,6 +9,6 @@ order: 2
 parts: 144
 level: 4
 techTags: [ギア, 動力移動, ワードブロック]
-tools: [レゴ, Stud.io]
+tools: [レゴ]
 featured: true
 ---

@@ -9,7 +9,7 @@ order: 1
 parts: 95
 level: 3
 techTags: [ギア, 動力移動, ステアリング]
-tools: [レゴ, Stud.io]
+tools: [レゴ]
 featured: true
 ---
 

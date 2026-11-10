@@ -9,6 +9,6 @@ order: 3
 parts: 78
 level: 2
 techTags: [ギア, 動力移動, アイコンブロック]
-tools: [レゴ, Stud.io]
+tools: [レゴ]
 featured: false
 ---
