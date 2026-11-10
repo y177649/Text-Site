@@ -1,31 +1,17 @@
 ---
-title: ステアリング機構
+title: 速いステアリングカー
 category: レゴ
-summary: 説明書作成ソフトで作ったオリジナルの組み立て説明書。
+ruby: { 速: はや }
+summary: すばやく曲がれるステアリングカー！レースカーに改造できるかも！？
 image: images/lego-steering.jpg
 url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp=sharing"
 video: videos/lego-steering.mp4
 order: 1
-tools: [レゴ, Stud.io]
+parts: 95
+level: 3
+techTags: [ギア, 動力移動, ステアリング]
+tools: [レゴ]
 featured: true
 ---
 
-## 備考
-
 23ページのペグ2個は不要です。付けずに進めてください。
-
-## ねらい
-
-準備中
-
-## できること
-
-準備中
-
-## このテキストで学べること
-
-準備中
-
-## 注意点
-
-準備中
