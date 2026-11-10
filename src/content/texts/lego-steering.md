@@ -7,7 +7,7 @@ url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp
 video: videos/lego-steering.mp4
 order: 1
 parts: 95
-level: 2
+level: 3
 techTags: [ギア, 動力移動, ステアリング]
 tools: [レゴ, Stud.io]
 featured: true

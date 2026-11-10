@@ -29,8 +29,8 @@ export const SITE = {
   levels: [
     { stars: 1, label: 'レゴを初めて作る子でもできる', minutes: 30 },
     { stars: 2, label: '説明書を見て作品を何度か作ったことがある', minutes: 45 },
-    { stars: 3, label: 'ほとんどのテキストを作ったことがある', minutes: 60 },
-    { stars: 4, label: 'ほとんどのテキストをメンターに聞かずに完成させられる。2コマ続けて同じテキストを作ることができる', minutes: 90 },
+    { stars: 3, label: 'ほかのテキストをほとんど作ったことがある', minutes: 60 },
+    { stars: 4, label: 'ほかのテキストをメンターに聞かずに完成でき、2コマ続けて1つのテキストに取り組める', minutes: 90 },
   ],
   // 相談フォーム（Google フォーム）。url が空のあいだは、ボタン・フッターのリンク・プライバシーポリシーのフォームの節を出さない。
   // url は「事前入力したURL」の ? より前（…/viewform）。entry ID（例: entry.123456789）も事前入力したURLから写す。
