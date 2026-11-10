@@ -1,16 +1,13 @@
 ---
-import RubyTitle from '../components/RubyTitle.astro';
 import Base from '../layouts/Base.astro';
 import TextCard from '../components/TextCard.astro';
-import { getTexts, textUrl, toolSummary } from '../lib/texts';
+import { assetUrl, catStyle, categoryUrl, getTexts, groupByCategory, newTexts, rankedTexts, toolSummary } from '../lib/texts';
 import { SITE } from '../site';
 
 const texts = await getTexts();
-// おすすめ：featured: true を先に、SITE.featuredCount 枚になるまで残りから順に埋める。あふれた分は「その他」
-const ordered = [...texts.filter((t) => t.data.featured), ...texts.filter((t) => !t.data.featured)];
-const featured = ordered.slice(0, SITE.featuredCount);
-const others = ordered.slice(SITE.featuredCount);
-const othersPreview = others.slice(0, 3); // その他のテキストは3件だけ見せる
+const groups = groupByCategory(texts);
+const fresh = newTexts(texts); // 公開から SITE.newDays 日以内。0件なら欄ごと出さない
+const ranked = await rankedTexts(texts); // よく開かれている順。取れなければ欄ごと出さない
 const tools = toolSummary(texts);
 ---
 <Base>
@@ -19,28 +16,41 @@ const tools = toolSummary(texts);
     <p class="lead">はじめての子も、もっと作りたい子も。</p>
   </section>
 
-  <h2 id="texts">おすすめのテキスト</h2>
-  <ul class="grid">
-    {featured.map((text) => <TextCard text={text} />)}
-  </ul>
+  <!-- 分類の入口。押すとその分類の全テキストのページへ。分類が増えれば自動で増える -->
+  <nav class="entries" aria-label="分類を選ぶ">
+    {groups.map((g) => {
+      const imgs = g.texts.map((t) => t.data.image).filter(Boolean).slice(0, 4) as string[];
+      return (
+        <a class="entry" href={categoryUrl(g.name, g.index)} style={catStyle(g.name)}>
+          <span class={`entry-imgs n${imgs.length}`}>
+            {imgs.map((img) => <img src={assetUrl(img)} alt="" loading="lazy" decoding="async" />)}
+          </span>
+          <span class="entry-name">{g.name}のテキスト</span>
+          <span class="entry-count">すべて見る →</span>
+        </a>
+      );
+    })}
+  </nav>
 
-  {othersPreview.length > 0 && (
+  {fresh.length > 0 && (
     <>
-      <h2 id="others">その他のテキスト</h2>
-      <ul class="list">
-        {othersPreview.map((t) => (
-          <li>
-            <span class="y">{t.data.category}</span>
-            <div>
-              <a href={textUrl(t)}><RubyTitle text={t} /></a>
-              <p>{t.data.summary}</p>
-            </div>
-          </li>
-        ))}
+      <h2 id="new">新しいテキスト</h2>
+      <p class="note">公開から{SITE.newDays}日以内のテキスト。</p>
+      <ul class="grid">
+        {fresh.map((text) => <TextCard text={text} />)}
       </ul>
     </>
   )}
-  <a class="more" href={`${import.meta.env.BASE_URL}texts/`}>すべてのテキストを見る（{texts.length}件）→</a>
+
+  {ranked && (
+    <>
+      <h2 id="recommend">おすすめのテキスト</h2>
+      <p class="note">よく開かれているテキスト。</p>
+      <ul class="grid">
+        {ranked.map((text) => <TextCard text={text} />)}
+      </ul>
+    </>
+  )}
 
   <div class="two-col">
     <section>
@@ -49,7 +59,6 @@ const tools = toolSummary(texts);
     </section>
     <section>
       <h2 id="tools">使う道具・ソフト</h2>
-      <p class="note">上のテキストで使うもの。数字は使うテキストの数。</p>
       <ul class="chips">
         {tools.map((t) => <li>{t.name}<span>{t.count}</span></li>)}
       </ul>

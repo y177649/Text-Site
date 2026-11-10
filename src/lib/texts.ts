@@ -79,3 +79,43 @@ export function rubySegments(title: string, ruby: Record<string, string>): { bas
   }
   return out;
 }
+
+// 分類ページのURL
+export const categorySlug = (name: string, index: number) => SITE.categorySlugs[name] ?? `cat-${index}`;
+export const categoryUrl = (name: string, index: number) => `${import.meta.env.BASE_URL}category/${categorySlug(name, index)}/`;
+
+// 分類の中を難しさの低い順に、⭐の数ごとにまとめる。⭐の無いテキストは一番下
+export function byLevel(list: Text[]): { stars?: number; texts: Text[] }[] {
+  const levels: (number | undefined)[] = [...SITE.levels.map((l) => l.stars), undefined];
+  return levels
+    .map((stars) => ({ stars, texts: list.filter((t) => t.data.level === stars) }))
+    .filter((b) => b.texts.length > 0);
+}
+
+// 公開から SITE.newDays 日以内か（カードの New の印と「新しいテキスト」に使う）
+export const isNew = (t: Text, now = new Date()) =>
+  now.getTime() - t.data.published.getTime() <= SITE.newDays * 24 * 60 * 60 * 1000;
+
+// 公開から SITE.newDays 日以内のテキスト（新しい順）
+export function newTexts(texts: Text[], now = new Date()): Text[] {
+  return texts
+    .filter((t) => isNew(t, now))
+    .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+}
+
+// よく開かれている順（Apps Script の ?view=ranking）。取れなければ null（おすすめの欄を出さない）
+export async function rankedTexts(texts: Text[]): Promise<Text[] | null> {
+  if (!SITE.endpoint) return null;
+  try {
+    const res = await fetch(`${SITE.endpoint}?view=ranking`, { signal: AbortSignal.timeout(15000) });
+    const body = (await res.json()) as { order?: unknown };
+    if (!Array.isArray(body.order)) return null;
+    const ranked = body.order
+      .map((id) => texts.find((t) => t.id === id))
+      .filter((t): t is Text => Boolean(t))
+      .slice(0, SITE.recommendCount);
+    return ranked.length > 0 ? ranked : null;
+  } catch {
+    return null;
+  }
+}
