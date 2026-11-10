@@ -24,7 +24,7 @@ const texts = defineCollection({
     level: z.number().int().min(1).max(4).optional(),
     // 技術のタグ（src/site.ts の techTags から選ぶ）。無ければ「-」
     techTags: z.array(z.enum(SITE.techTags as [string, ...string[]])).default([]),
-    // パーツ数（組み立てに使う部品の総数。レゴは Stud.io の部品表の総数）。無ければ表示しない
+    // パーツ数（組み立てに使う部品の総数）。無ければ「-」
     parts: z.number().int().positive().optional(),
     // 作るときに使う道具・ソフト（トップの「使う道具・ソフト」に集計される）
     tools: z.array(z.string()).default([]),
