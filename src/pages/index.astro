@@ -1,16 +1,11 @@
 ---
-import RubyTitle from '../components/RubyTitle.astro';
 import Base from '../layouts/Base.astro';
 import TextCard from '../components/TextCard.astro';
-import { getTexts, textUrl, toolSummary } from '../lib/texts';
+import { assetUrl, catStyle, getTexts, groupByCategory, toolSummary } from '../lib/texts';
 import { SITE } from '../site';
 
 const texts = await getTexts();
-// おすすめ：featured: true を先に、SITE.featuredCount 枚になるまで残りから順に埋める。あふれた分は「その他」
-const ordered = [...texts.filter((t) => t.data.featured), ...texts.filter((t) => !t.data.featured)];
-const featured = ordered.slice(0, SITE.featuredCount);
-const others = ordered.slice(SITE.featuredCount);
-const othersPreview = others.slice(0, 3); // その他のテキストは3件だけ見せる
+const groups = groupByCategory(texts); // 分類ごと。全件
 const tools = toolSummary(texts);
 ---
 <Base>
@@ -19,28 +14,30 @@ const tools = toolSummary(texts);
     <p class="lead">はじめての子も、もっと作りたい子も。</p>
   </section>
 
-  <h2 id="texts">おすすめのテキスト</h2>
-  <ul class="grid">
-    {featured.map((text) => <TextCard text={text} />)}
-  </ul>
+  <!-- 分類の入口。押すと下の一覧のその分類へ飛ぶ。分類が増えれば自動で増える -->
+  <nav class="entries" aria-label="分類を選ぶ">
+    {groups.map((g) => {
+      const img = g.texts.find((t) => t.data.image)?.data.image;
+      return (
+        <a class="entry" href={`#cat-${g.index}`} style={catStyle(g.name)}>
+          {img && <img src={assetUrl(img)} alt="" loading="lazy" decoding="async" />}
+          <span class="entry-name">{g.name}</span>
+          <span class="entry-count">{g.texts.length}本 →</span>
+        </a>
+      );
+    })}
+  </nav>
 
-  {othersPreview.length > 0 && (
+  <h2 id="texts">すべてのテキスト</h2>
+  <p class="note">分類ごとの一覧。</p>
+  {groups.map((g) => (
     <>
-      <h2 id="others">その他のテキスト</h2>
-      <ul class="list">
-        {othersPreview.map((t) => (
-          <li>
-            <span class="y">{t.data.category}</span>
-            <div>
-              <a href={textUrl(t)}><RubyTitle text={t} /></a>
-              <p>{t.data.summary}</p>
-            </div>
-          </li>
-        ))}
+      <h3 class="cat-heading" id={`cat-${g.index}`} style={catStyle(g.name)}>{g.name}</h3>
+      <ul class="grid">
+        {g.texts.map((text) => <TextCard text={text} />)}
       </ul>
     </>
-  )}
-  <a class="more" href={`${import.meta.env.BASE_URL}texts/`}>すべてのテキストを見る（{texts.length}件）→</a>
+  ))}
 
   <div class="two-col">
     <section>

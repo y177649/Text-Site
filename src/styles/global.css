@@ -42,6 +42,14 @@ footer.site { margin-top: 96px; padding: 0 0 48px; color: var(--muted); font-siz
 footer.site nav { display: flex; gap: 16px; flex-wrap: wrap; }
 h1 { font-size: clamp(1.6rem, 4vw, 2.25rem); line-height: 1.35; margin: 0 0 16px; letter-spacing: .01em; }
 h2 { font-size: 1.25rem; margin: 56px 0 16px; }
+.entries { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 12px; margin: 24px 0 0; }
+.entry { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-top: 6px solid var(--cat, var(--line));
+  border-radius: var(--radius); background: var(--surface); color: var(--text); text-decoration: none; }
+.entry img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: #f5f5f4; }
+.entry-name { padding: 12px 14px 0; font-size: 1.2rem; font-weight: 700; }
+.entry-count { padding: 2px 14px 14px; color: var(--muted); font-size: .9rem; }
+.entry:hover { border-color: var(--cat, var(--text)); }
+.cat-heading { scroll-margin-top: 16px; font-size: 1.05rem; margin: 32px 0 12px; padding-left: 10px; border-left: 4px solid var(--cat, var(--line)); }
 .lead { color: var(--muted); max-width: 42rem; margin: 0; }
 .hero { padding: 24px 0 8px; }
 
@@ -100,8 +108,6 @@ rt { font-size: .45em; font-weight: 400; color: var(--muted); }
 .list a { color: var(--text); font-weight: 600; text-decoration: none; }
 .list a:hover { text-decoration: underline; }
 .list p { margin: 0; color: var(--muted); font-size: .9rem; }
-.more { display: inline-block; margin-top: 16px; font-size: .9rem; text-decoration: none; }
-.more:hover { text-decoration: underline; }
 
 /* ── About・使う道具 ── */
 .two-col { display: grid; gap: 0 48px; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }

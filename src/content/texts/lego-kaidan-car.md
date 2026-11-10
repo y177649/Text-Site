@@ -11,5 +11,4 @@ parts: 78
 level: 2
 techTags: [ギア, 動力移動, アイコンブロック]
 tools: [レゴ]
-featured: false
 ---

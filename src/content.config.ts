@@ -30,8 +30,6 @@ const texts = defineCollection({
     parts: z.number().int().positive().optional(),
     // 作るときに使う道具・ソフト（トップの「使う道具・ソフト」に集計される）
     tools: z.array(z.string()).default([]),
-    // true ならトップのカード（おすすめ）、false なら「その他のテキスト」リスト
-    featured: z.boolean().default(false),
     // 分類の中での並び順（小さいほど先）
     order: z.number().default(100),
     draft: z.boolean().default(false),

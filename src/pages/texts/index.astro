@@ -1,20 +1,15 @@
 ---
-import Base from '../../layouts/Base.astro';
-import TextCard from '../../components/TextCard.astro';
-import { getTexts, groupByCategory } from '../../lib/texts';
-
-const groups = groupByCategory(await getTexts()); // 分類ごと。全件
+// 一覧はトップに移した（2026-11-10）。前のURL（社内で共有したリンクなど）から来た人をトップの一覧へ送る
+const to = `${import.meta.env.BASE_URL}#texts`;
 ---
-<Base title="すべてのテキスト" description="教材テキストの一覧。">
-  <a class="back" href={`${import.meta.env.BASE_URL}#others`}>← トップへ戻る</a>
-  <h1>すべてのテキスト</h1>
-  <p class="lead">分類ごとの一覧。</p>
-  {groups.map((g) => (
-    <>
-      <h2 id={`cat-${g.index}`}>{g.name}</h2>
-      <ul class="grid">
-        {g.texts.map((text) => <TextCard text={text} />)}
-      </ul>
-    </>
-  ))}
-</Base>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>すべてのテキスト</title>
+  </head>
+  <body><p><a href={to}>すべてのテキストはトップページにあります →</a></p></body>
+</html>

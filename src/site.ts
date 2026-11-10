@@ -7,8 +7,6 @@ export const SITE = {
   headline: 'レゴと3Dプリンターの、作り方テキスト。',
   description: 'レゴと3Dプリンターの作り方テキスト。',
   github: 'https://github.com/y177649',
-  // トップの「おすすめのテキスト」に出すカードの数。featured: true を先に、足りない分は残りから順に埋める
-  featuredCount: 6,
   // About に出す短い事実（1行ずつ）
   about: [
     '子どもたちがワクワクしながら作れるテキストを、これからも作っていきます。',

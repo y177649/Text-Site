@@ -11,7 +11,6 @@ parts: 95
 level: 3
 techTags: [ギア, 動力移動, ステアリング]
 tools: [レゴ]
-featured: true
 ---
 
 23ページのペグ2個は不要です。付けずに進めてください。
