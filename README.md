@@ -22,6 +22,7 @@ summary: カードに出す1文（80字以内）
 image: images/lego-new-car.jpg   # public/ からのパス。横長がよい
 url: "https://drive.google.com/…"  # テキスト本体の共有リンク。無ければ「準備中」
 video: videos/lego-new-car.mp4    # 動くようすの動画（public/ からのパス）。無ければ「動画なし」
+parts: 120               # パーツ数（部品の総数。レゴは Stud.io の部品表の総数）。無ければ表示しない
 order: 4                 # 分類の中での並び順（小さいほど先）
 draft: false             # true にすると公開されない
 ---

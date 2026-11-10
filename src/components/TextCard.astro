@@ -7,7 +7,7 @@ interface Props {
   showPin?: boolean;
 }
 const { text, showPin = false } = Astro.props;
-const { title, category, summary, image, featured } = text.data;
+const { title, category, summary, image, featured, parts } = text.data;
 ---
 <li class="card" style={catStyle(category)}>
   {showPin && featured && (
@@ -15,7 +15,7 @@ const { title, category, summary, image, featured } = text.data;
   )}
   {image && <img class="thumb" src={assetUrl(image)} alt="" loading="lazy" decoding="async" />}
   <div class="card-body">
-    <div class="meta"><span class="tag">{category}</span></div>
+    <div class="meta"><span class="tag">{category}</span>{parts && <span class="parts">パーツ {parts}個</span>}</div>
     <h3><a href={textUrl(text)}>{title}</a></h3>
     <p>{summary}</p>
   </div>

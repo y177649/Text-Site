@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { text, prev, next, catIndex } = Astro.props;
-const { title, category, summary, image, url, video, tools } = text.data;
+const { title, category, summary, image, url, video, tools, parts } = text.data;
 const { Content } = await render(text);
 ---
 <Base title={title} description={summary} image={image}>
@@ -30,6 +30,7 @@ const { Content } = await render(text);
     {image && <img class="hero-image" src={assetUrl(image)} alt={`${title}の完成イメージ`} />}
     <dl>
       <dt>分類</dt><dd>{category}</dd>
+      {parts && <><dt>パーツ数</dt><dd class="parts-count">{parts}個</dd></>}
       {tools.length > 0 && <><dt>使うもの</dt><dd>{tools.join(' / ')}</dd></>}
     </dl>
     <!-- data-text-id の付いたリンクを押したときだけ利用を記録する（src/scripts/track.ts） -->

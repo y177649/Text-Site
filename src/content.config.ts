@@ -19,6 +19,8 @@ const texts = defineCollection({
     url: z.string().url().optional(),
     // 動くようすの動画（public/ からのパス。例: videos/lego-gacha.mp4）。無ければ「動画なし」
     video: z.string().optional(),
+    // パーツ数（組み立てに使う部品の総数。レゴは Stud.io の部品表の総数）。無ければ表示しない
+    parts: z.number().int().positive().optional(),
     // 作るときに使う道具・ソフト（トップの「使う道具・ソフト」に集計される）
     tools: z.array(z.string()).default([]),
     // true ならトップのカード（おすすめ）、false なら「その他のテキスト」リスト
