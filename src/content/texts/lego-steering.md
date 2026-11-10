@@ -1,7 +1,7 @@
 ---
 title: 速いステアリングカー
 category: レゴ
-summary: 説明書作成ソフトで作ったオリジナルの組み立て説明書。
+summary: すばやく曲がれるステアリングカー！レースカーに改造できるかも！？
 image: images/lego-steering.jpg
 url: "https://drive.google.com/file/d/1Qls5aH-jVY59p_5nWJPP5o9sMxZltgKU/view?usp=sharing"
 video: videos/lego-steering.mp4
