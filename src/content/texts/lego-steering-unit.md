@@ -1,7 +1,7 @@
 ---
 title: ステアリングユニット
 category: レゴ
-summary: ステアリングユニットの組み立て説明書。
+summary: ステアリング機構のテキスト！色々な仕組みと組み合わせてオリジナルの車を作ろう！
 image: images/lego-steering-unit.jpg
 url: "https://drive.google.com/file/d/1xj258NvGBf6cyx0CQnlrtEVOZD5_ESH7/view?usp=sharing"
 order: 4
