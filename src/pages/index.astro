@@ -2,11 +2,10 @@
 import RubyTitle from '../components/RubyTitle.astro';
 import Base from '../layouts/Base.astro';
 import TextCard from '../components/TextCard.astro';
-import { getTexts, groupByCategory, textUrl, toolSummary } from '../lib/texts';
+import { getTexts, textUrl, toolSummary } from '../lib/texts';
 import { SITE } from '../site';
 
 const texts = await getTexts();
-const groups = groupByCategory(texts);
 // おすすめ：featured: true を先に、SITE.featuredCount 枚になるまで残りから順に埋める。あふれた分は「その他」
 const ordered = [...texts.filter((t) => t.data.featured), ...texts.filter((t) => !t.data.featured)];
 const featured = ordered.slice(0, SITE.featuredCount);
