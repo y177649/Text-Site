@@ -35,7 +35,7 @@ const lv = level ? SITE.levels.find((l) => l.stars === level) : undefined;
       <dt>分類</dt><dd>{category}</dd>
       <dt>難しさ</dt><dd>{lv ? <><span class="stars" aria-label={`難しさ ${lv.stars}（4段階）`}>{'⭐'.repeat(lv.stars)}</span> <span class="level-label">{lv.label}</span></> : '-'}</dd>
       <dt>制作時間</dt><dd>{lv ? `${lv.minutes}分くらい` : '-'}</dd>
-      <dt>パーツ数</dt><dd class="parts-count">{parts ? `${parts}個` : '-'}</dd>
+      <dt>パーツ数</dt><dd class="parts-count">{parts ? `${parts}パーツ` : '-'}</dd>
       <dt>技術</dt><dd>{techTags.length > 0 ? <span class="tech-tags">{techTags.map((t) => <span>#{t}</span>)}</span> : '-'}</dd>
       {tools.length > 0 && <><dt>使うもの</dt><dd>{tools.join(' / ')}</dd></>}
     </dl>
