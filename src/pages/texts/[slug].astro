@@ -3,7 +3,7 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import RubyTitle from '../../components/RubyTitle.astro';
 import { SITE } from '../../site';
-import { assetUrl, catStyle, formUrl, getTexts, groupByCategory, textUrl } from '../../lib/texts';
+import { assetUrl, catStyle, categoryUrl, formUrl, getTexts, groupByCategory, textUrl } from '../../lib/texts';
 
 export async function getStaticPaths() {
   const texts = await getTexts();
@@ -28,7 +28,7 @@ const lv = level ? SITE.levels.find((l) => l.stars === level) : undefined;
 ---
 <Base title={title} description={summary} image={image}>
   <article style={catStyle(category)}>
-    <a class="back" href={`${import.meta.env.BASE_URL}#cat-${catIndex}`}>← すべてのテキスト</a>
+    <a class="back" href={categoryUrl(category, catIndex)}>← {category}のテキスト</a>
     <h1><RubyTitle text={text} /></h1>
     <p class="lead">{summary}</p>
     {image && <img class="hero-image" src={assetUrl(image)} alt={`${title}の完成イメージ`} />}

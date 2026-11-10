@@ -32,6 +32,8 @@ const texts = defineCollection({
     tools: z.array(z.string()).default([]),
     // 分類の中での並び順（小さいほど先）
     order: z.number().default(100),
+    // サイトに公開した日。トップの「New」に使う
+    published: z.coerce.date(),
     draft: z.boolean().default(false),
   }),
 });

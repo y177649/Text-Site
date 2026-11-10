@@ -145,3 +145,23 @@ function order_(a, b, newestFirst) {
   var asc = a < b ? -1 : 1;
   return newestFirst ? -asc : asc;
 }
+
+// サイトの「おすすめのテキスト」用。主な値（90分）で数えた利用回数の多い順に text_id を返す。
+// 回数そのものはサイトに出さない（順番だけ使う）。同じ回数なら text_id の順。
+function rankTexts(events, thresholdMin) {
+  var byKey = {};
+  events.forEach(function (e) {
+    var key = e.deviceId + "\t" + e.textId;
+    (byKey[key] = byKey[key] || { textId: e.textId, times: [] }).times.push(e.time);
+  });
+  var tally = {};
+  Object.keys(byKey).forEach(function (k) {
+    var g = byKey[k];
+    var n = countedFlags(g.times.sort(function (a, b) { return a - b; }), thresholdMin)
+      .filter(function (c) { return c; }).length;
+    tally[g.textId] = (tally[g.textId] || 0) + n;
+  });
+  return Object.keys(tally)
+    .map(function (id) { return { textId: id, count: tally[id] }; })
+    .sort(function (a, b) { return b.count - a.count || (a.textId < b.textId ? -1 : a.textId > b.textId ? 1 : 0); });
+}

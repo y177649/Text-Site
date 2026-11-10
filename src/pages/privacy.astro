@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE } from '../site';
+import { POLICY_REVISED, SITE } from '../site';
 import { formUrl } from '../lib/texts';
 
 // 記録の中身を変えたら（src/scripts/track.ts・gas/Code.gs）、このページも必ず直して制定日の下に改定日を書く。
@@ -11,7 +11,7 @@ const form = formUrl();
 <Base title="プライバシーポリシー" description="このサイトで記録している情報と、その扱いについて。">
   <article class="policy">
     <h1>プライバシーポリシー</h1>
-    <p class="lead">制定日：2026年10月7日{form && SITE.form.since && <><br />改定日：{SITE.form.since}</>}</p>
+    <p class="lead">制定日：2026年10月7日<br />改定日：{POLICY_REVISED}</p>
 
     <p>このサイト（{SITE.title}）では、テキストがどれくらい使われているかを知るために、<strong>テキストが開かれた回数を記録しています</strong>。記録する内容と、その扱いは次のとおりです。</p>
 
@@ -41,7 +41,7 @@ const form = formUrl();
     </>}
 
     <h2>使う目的</h2>
-    <p>テキストがどれくらい使われているかを把握し、テキストの改善や新しいテキストづくりに役立てるためです。それ以外の目的には使いません。</p>
+    <p>テキストがどれくらい使われているかを把握し、テキストの改善や新しいテキストづくりに役立てるためです。また、トップページの「おすすめのテキスト」で、よく開かれているテキストを紹介するために使います（並び順だけを使い、回数は表示しません）。それ以外の目的には使いません。</p>
 
     <h2>ブラウザに保存する情報</h2>
     <p>ランダムな番号と経路の区別は、ブラウザの保存領域（localStorage）に保存します。ブラウザの設定から、このサイトのデータを削除すると消えます。消した場合は、次にこのサイトを開いたときに新しい番号が作られます。</p>

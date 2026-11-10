@@ -4,6 +4,7 @@ category: レゴ
 summary: ステアリング機構のテキスト！色々な仕組みと組み合わせてオリジナルの車を作ろう！
 image: images/lego-steering-unit.jpg
 url: "https://drive.google.com/file/d/1xj258NvGBf6cyx0CQnlrtEVOZD5_ESH7/view?usp=sharing"
+published: 2026-10-07
 order: 4
 parts: 28
 level: 1

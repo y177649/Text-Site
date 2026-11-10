@@ -1,18 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import TextCard from '../components/TextCard.astro';
-import { assetUrl, catStyle, getTexts, groupByCategory, toolSummary } from '../lib/texts';
+import { assetUrl, catStyle, categoryUrl, getTexts, groupByCategory, newTexts, rankedTexts, toolSummary } from '../lib/texts';
 import { SITE } from '../site';
 
 const texts = await getTexts();
-const groups = groupByCategory(texts); // 分類ごと。全件
-// 分類の中は難しさの低い順に、⭐の数ごとの区切りを付けて並べる。⭐の無いテキストは一番下
-const byLevel = (list: typeof texts) => {
-  const levels = [...SITE.levels.map((l) => l.stars), undefined];
-  return levels
-    .map((stars) => ({ stars, texts: list.filter((t) => t.data.level === stars) }))
-    .filter((b) => b.texts.length > 0);
-};
+const groups = groupByCategory(texts);
+const fresh = newTexts(texts); // 公開から SITE.newDays 日以内。0件なら欄ごと出さない
+const ranked = await rankedTexts(texts); // よく開かれている順。取れなければ欄ごと出さない
 const tools = toolSummary(texts);
 ---
 <Base>
@@ -21,37 +16,41 @@ const tools = toolSummary(texts);
     <p class="lead">はじめての子も、もっと作りたい子も。</p>
   </section>
 
-  <!-- 分類の入口。押すと下の一覧のその分類へ飛ぶ。分類が増えれば自動で増える -->
+  <!-- 分類の入口。押すとその分類の全テキストのページへ。分類が増えれば自動で増える -->
   <nav class="entries" aria-label="分類を選ぶ">
     {groups.map((g) => {
-      const img = g.texts.find((t) => t.data.image)?.data.image;
+      const imgs = g.texts.map((t) => t.data.image).filter(Boolean).slice(0, 4) as string[];
       return (
-        <a class="entry" href={`#cat-${g.index}`} style={catStyle(g.name)}>
-          {img && <img src={assetUrl(img)} alt="" loading="lazy" decoding="async" />}
-          <span class="entry-name">{g.name}</span>
-          <span class="entry-count">{g.texts.length}本 →</span>
+        <a class="entry" href={categoryUrl(g.name, g.index)} style={catStyle(g.name)}>
+          <span class={`entry-imgs n${imgs.length}`}>
+            {imgs.map((img) => <img src={assetUrl(img)} alt="" loading="lazy" decoding="async" />)}
+          </span>
+          <span class="entry-name">{g.name}のテキスト</span>
+          <span class="entry-count">{g.name}の全てのテキストはこちら →</span>
         </a>
       );
     })}
   </nav>
 
-  <h2 id="texts">すべてのテキスト</h2>
-  <p class="note">分類ごとの一覧。</p>
-  {groups.map((g) => (
+  {fresh.length > 0 && (
     <>
-      <h3 class="cat-heading" id={`cat-${g.index}`} style={catStyle(g.name)}>{g.name}</h3>
-      {byLevel(g.texts).map((b) => (
-        <>
-          <p class="level-divider">
-            {b.stars ? <span class="stars" aria-label={`難しさ ${b.stars}`}>{'⭐'.repeat(b.stars)}</span> : <span>難しさの目安なし</span>}
-          </p>
-          <ul class="grid">
-            {b.texts.map((text) => <TextCard text={text} />)}
-          </ul>
-        </>
-      ))}
+      <h2 id="new">New</h2>
+      <p class="note">公開から{SITE.newDays}日以内のテキスト。</p>
+      <ul class="grid">
+        {fresh.map((text) => <TextCard text={text} />)}
+      </ul>
     </>
-  ))}
+  )}
+
+  {ranked && (
+    <>
+      <h2 id="recommend">おすすめのテキスト</h2>
+      <p class="note">よく開かれているテキスト。</p>
+      <ul class="grid">
+        {ranked.map((text) => <TextCard text={text} />)}
+      </ul>
+    </>
+  )}
 
   <div class="two-col">
     <section>

@@ -39,7 +39,19 @@ function doPost(e) {
 }
 
 // デプロイ確認用。ブラウザで /exec を開くと ok が返る。
-function doGet() {
+// ?view=ranking なら、サイトの「おすすめのテキスト」用に、よく開かれている順の text_id だけを返す
+// （回数・端末・時刻は返さない）。サイトは毎日の再ビルドでこれを読む。
+function doGet(e) {
+  if (e && e.parameter && e.parameter.view === "ranking") {
+    var raw = SpreadsheetApp.getActive().getSheetByName(RAW_SHEET);
+    var values = raw ? raw.getDataRange().getValues().slice(1) : [];
+    var events = values
+      .filter(function (r) { return r[0] instanceof Date && r[1] && r[2]; })
+      .map(function (r) { return { time: r[0].getTime(), deviceId: String(r[1]), textId: String(r[2]) }; });
+    var order = rankTexts(events, PRIMARY_THRESHOLD_MIN).map(function (r) { return r.textId; });
+    return ContentService.createTextOutput(JSON.stringify({ order: order }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
   return text_("ok");
 }
 

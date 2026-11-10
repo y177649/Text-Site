@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import TextCard from '../../components/TextCard.astro';
+import { byLevel, catStyle, categorySlug, getTexts, groupByCategory } from '../../lib/texts';
+
+export async function getStaticPaths() {
+  const groups = groupByCategory(await getTexts());
+  return groups.map((g) => ({ params: { slug: categorySlug(g.name, g.index) }, props: { group: g } }));
+}
+
+const { group } = Astro.props;
+const title = `${group.name}のテキスト`;
+---
+<Base title={title} description={`${group.name}の作り方テキストの一覧。`}>
+  <div style={catStyle(group.name)}>
+    <a class="back" href={import.meta.env.BASE_URL}>← トップへ</a>
+    <h1 class="cat-title">{title}</h1>
+    <p class="lead">難しさの低い順。</p>
+    {byLevel(group.texts).map((b) => (
+      <>
+        <p class="level-divider">
+          {b.stars ? <span class="stars" aria-label={`難しさ ${b.stars}`}>{'⭐'.repeat(b.stars)}</span> : <span>難しさの目安なし</span>}
+        </p>
+        <ul class="grid">
+          {b.texts.map((text) => <TextCard text={text} />)}
+        </ul>
+      </>
+    ))}
+  </div>
+</Base>

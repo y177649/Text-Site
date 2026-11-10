@@ -7,7 +7,7 @@ const vm = require("node:vm");
 const ctx = {};
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(__dirname, "../gas/Analysis.gs"), "utf8"), ctx);
-const { countedFlags, buildReport } = ctx;
+const { countedFlags, buildReport, rankTexts } = ctx;
 
 const MIN = 60 * 1000;
 const T0 = Date.UTC(2026, 9, 1, 1, 0);
@@ -70,3 +70,15 @@ assert.equal(report.counts[0].textId, "（合計）");
 assert.deepEqual([...buildReport([], thresholds).counts], []);
 
 console.log("ok");
+
+// おすすめ用の順位：90分で数えた利用回数の多い順。同じ端末の90分以内の再アクセスは1回。
+{
+  const evs = [
+    ev(0, "d1", "b"), ev(10, "d1", "b"), ev(200, "d1", "b"), // b: d1 で2回
+    ev(0, "d2", "b"),                                       // b: d2 で1回 → 合計3回
+    ev(0, "d1", "a"), ev(5, "d2", "a"),                      // a: 2回
+    ev(0, "d3", "c"), ev(0, "d4", "c"),                      // c: 2回（a と同数 → text_id 順）
+  ];
+  assert.deepEqual(JSON.parse(JSON.stringify(rankTexts(evs, 90))).map((r) => r.textId), ["b", "a", "c"]);
+  assert.deepEqual(JSON.parse(JSON.stringify(rankTexts([], 90))), []);
+}
