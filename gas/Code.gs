@@ -43,10 +43,13 @@ function doPost(e) {
 // （回数・端末・時刻は返さない）。サイトは毎日の再ビルドでこれを読む。
 function doGet(e) {
   if (e && e.parameter && e.parameter.view === "ranking") {
-    var raw = SpreadsheetApp.getActive().getSheetByName(RAW_SHEET);
+    var ss = SpreadsheetApp.getActive();
+    var raw = ss.getSheetByName(RAW_SHEET);
     var values = raw ? raw.getDataRange().getValues().slice(1) : [];
+    // 解析（Analysis.gs）と同じく、導入時の動作確認（COUNT_FROM より前）は数えない
+    var countFrom = Utilities.parseDate(COUNT_FROM, ss.getSpreadsheetTimeZone(), "yyyy-MM-dd HH:mm:ss").getTime();
     var events = values
-      .filter(function (r) { return r[0] instanceof Date && r[1] && r[2]; })
+      .filter(function (r) { return r[0] instanceof Date && r[0].getTime() >= countFrom && r[1] && r[2]; })
       .map(function (r) { return { time: r[0].getTime(), deviceId: String(r[1]), textId: String(r[2]) }; });
     var order = rankTexts(events, PRIMARY_THRESHOLD_MIN).map(function (r) { return r.textId; });
     return ContentService.createTextOutput(JSON.stringify({ order: order }))
