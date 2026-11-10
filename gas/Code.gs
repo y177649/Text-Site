@@ -9,7 +9,8 @@ var MANUAL_HEADER = ["日付", "コマ開始時刻", "text_id", "使った人数
 // テキストの一覧は src/content/texts/ だけで管理する。ここでは text_id の形式だけを見るので、
 // テキストを追加しても Apps Script の書き換え・再デプロイは要らない。
 var TEXT_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,63}$/;
-var REFERRERS = ["wonder", "general"];
+// 経路は英小文字の短い語だけ受け付ける（サイトが送るのは share か general）
+var REFERRER_PATTERN = /^[a-z]{1,16}$/;
 var DEVICE_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 function doPost(e) {
@@ -22,7 +23,7 @@ function doPost(e) {
   // 形式が壊れた送信だけ捨てる（サイト以外からの送信やいたずら対策）。正しい形式の重複は全部残す。
   if (!data ||
       !TEXT_ID_PATTERN.test(String(data.text_id)) ||
-      REFERRERS.indexOf(data.referrer) < 0 ||
+      !REFERRER_PATTERN.test(String(data.referrer)) ||
       !DEVICE_ID_PATTERN.test(String(data.device_id))) {
     return text_("bad request");
   }

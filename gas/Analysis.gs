@@ -196,7 +196,7 @@ function countedFlags(sortedTimes, thresholdMin) {
 }
 
 function buildReport(events, thresholds) {
-  // 端末×テキストでまとめて時系列に並べる。referrer は端末の途中で general→wonder に変わりうるので
+  // 端末×テキストでまとめて時系列に並べる。referrer は端末の途中で general→share に変わりうるので
   // まとめる単位には含めず、カウントした記録ごとに集計する。
   var groups = {};
   events.forEach(function (e) {

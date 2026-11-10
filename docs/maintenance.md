@@ -65,7 +65,7 @@ New とおすすめを新しく保つため、GitHub Actions が毎日 05:17 JST
 
 - 記録するのは、詳細ページの「テキストを開く」（`data-text-id` の付いたリンク）を押した瞬間だけ。ページを開いただけでは記録しない。
 - 記録する列：`時刻`（受信時刻）・`device_id`（ブラウザごとに `localStorage` へ発行するランダムな UUID）・`text_id`・`referrer`。
-- 配布用のリンク（末尾に `?from=` を付けたもの。値は `src/scripts/track.ts`）で一度でも来た端末は、以後その経路として記録する。それ以外は `general`。
+- 配布用のリンク（末尾に `?from=share` を付けたもの。`from` が付いていれば値は問わない）で一度でも来た端末は、以後 `referrer=share`。それ以外は `general`。
 - 記録の時点では重複をはじかない。形式が壊れた送信（`text_id` の形式違いなど）だけ捨てる。
 - 送り先（Apps Script の /exec）は `src/site.ts` の `endpoint`。
 

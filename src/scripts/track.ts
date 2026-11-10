@@ -1,6 +1,6 @@
 // 利用の記録。全ページで読み込む。
 // - 端末の識別はブラウザごとのランダムID（localStorage）。共用の PC は Google アカウントを共有しているので使わない。
-// - ?from=wonder で一度来た端末は、以後ずっと referrer=wonder。
+// - 配布用のリンク（末尾に ?from=… が付いたもの）で一度来た端末は、以後ずっと referrer=share。
 // - 記録は data-text-id の付いたリンク（＝テキスト本体を開く操作）を押したときだけ。ページを開いただけでは記録しない。
 // - 重複はここではじかない（判定は Apps Script 側の解析で行う）。
 
@@ -38,8 +38,9 @@ function deviceId(): string {
   return id;
 }
 
-function referrer(): 'wonder' | 'general' {
-  return load(REFERRER_KEY) === 'wonder' ? 'wonder' : 'general';
+function referrer(): 'share' | 'general' {
+  // 前の版で保存した値の端末も、配布用のリンクから来た端末として扱う（何か保存されていれば share）
+  return load(REFERRER_KEY) ? 'share' : 'general';
 }
 
 function record(endpoint: string, textId: string) {
@@ -55,7 +56,7 @@ function record(endpoint: string, textId: string) {
 
 const endpoint = document.documentElement.dataset.endpoint ?? '';
 
-if (new URLSearchParams(location.search).get('from') === 'wonder') save(REFERRER_KEY, 'wonder');
+if (new URLSearchParams(location.search).has('from')) save(REFERRER_KEY, 'share');
 deviceId();
 
 if (endpoint) {
