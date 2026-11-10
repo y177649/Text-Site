@@ -1,5 +1,5 @@
 ---
-title: ステアリング機構
+title: 速いステアリングカー
 category: レゴ
 summary: 説明書作成ソフトで作ったオリジナルの組み立て説明書。
 image: images/lego-steering.jpg
