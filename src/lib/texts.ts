@@ -92,11 +92,14 @@ export function byLevel(list: Text[]): { stars?: number; texts: Text[] }[] {
     .filter((b) => b.texts.length > 0);
 }
 
+// 公開から SITE.newDays 日以内か（カードの New の印と「新しいテキスト」に使う）
+export const isNew = (t: Text, now = new Date()) =>
+  now.getTime() - t.data.published.getTime() <= SITE.newDays * 24 * 60 * 60 * 1000;
+
 // 公開から SITE.newDays 日以内のテキスト（新しい順）
 export function newTexts(texts: Text[], now = new Date()): Text[] {
-  const limit = SITE.newDays * 24 * 60 * 60 * 1000;
   return texts
-    .filter((t) => now.getTime() - t.data.published.getTime() <= limit)
+    .filter((t) => isNew(t, now))
     .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
 }
 

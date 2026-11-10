@@ -26,7 +26,7 @@ const tools = toolSummary(texts);
             {imgs.map((img) => <img src={assetUrl(img)} alt="" loading="lazy" decoding="async" />)}
           </span>
           <span class="entry-name">{g.name}のテキスト</span>
-          <span class="entry-count">{g.name}の全てのテキストはこちら →</span>
+          <span class="entry-count">すべて見る →</span>
         </a>
       );
     })}
@@ -34,7 +34,7 @@ const tools = toolSummary(texts);
 
   {fresh.length > 0 && (
     <>
-      <h2 id="new">New</h2>
+      <h2 id="new">新しいテキスト</h2>
       <p class="note">公開から{SITE.newDays}日以内のテキスト。</p>
       <ul class="grid">
         {fresh.map((text) => <TextCard text={text} />)}
