@@ -49,6 +49,9 @@ h2 { font-size: 1.25rem; margin: 56px 0 16px; }
 .entry-name { padding: 12px 14px 0; font-size: 1.2rem; font-weight: 700; }
 .entry-count { padding: 2px 14px 14px; color: var(--muted); font-size: .9rem; }
 .entry:hover { border-color: var(--cat, var(--text)); }
+.level-divider { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 20px 0 10px; padding-bottom: 6px;
+  border-bottom: 1px dashed var(--line); color: var(--muted); font-size: .85rem; }
+.level-divider .stars { font-size: 1rem; }
 .cat-heading { scroll-margin-top: 16px; font-size: 1.05rem; margin: 32px 0 12px; padding-left: 10px; border-left: 4px solid var(--cat, var(--line)); }
 .lead { color: var(--muted); max-width: 42rem; margin: 0; }
 .hero { padding: 24px 0 8px; }
