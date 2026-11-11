@@ -172,3 +172,5 @@ article ul { padding-left: 1.25em; }
 .note-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
 .note-pair figcaption { grid-column: 1 / -1; font-weight: 700; color: var(--text); }
 .note-pair img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+/* 備考の中で、特に読んでほしい注意（赤字） */
+.warn { color: #c62828; }
