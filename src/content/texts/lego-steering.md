@@ -14,4 +14,4 @@ techTags: [ギア, 動力移動, ステアリング]
 tools: [レゴ]
 ---
 
-<span class="warn">23ページのペグ2個は不要です。付けずに進めてください。</span>
+<strong class="warn">23ページのペグ2個は不要です。付けずに進めてください。</strong>
