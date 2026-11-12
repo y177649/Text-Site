@@ -10,6 +10,6 @@ published: 2026-11-11
 order: 5
 parts: 58
 level: 2
-techTags: [ギア, 動力移動, アイコンブロック]
+techTags: [ギア, 動力移動, アイコンブロック, カラーセンサー]
 tools: [レゴ]
 ---

@@ -9,6 +9,6 @@ published: 2026-10-07
 order: 2
 parts: 144
 level: 4
-techTags: [ギア, 動力移動, ワードブロック]
+techTags: [ギア, 動力移動, ワードブロック, カラーセンサー]
 tools: [レゴ]
 ---
