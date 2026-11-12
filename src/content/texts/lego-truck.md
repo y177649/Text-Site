@@ -9,6 +9,6 @@ published: 2026-11-12
 order: 7
 parts: 73
 level: 2
-techTags: [動力移動, アイコンブロック, 輪ゴム]
+techTags: [動力移動, アイコンブロック, 輪ゴム, カラーセンサー]
 tools: [レゴ]
 ---
