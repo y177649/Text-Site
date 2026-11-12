@@ -1,7 +1,7 @@
 ---
 title: トラック
 category: レゴ
-summary: 輪ゴムで前と後ろのタイヤに力を伝えて走るトラック。荷物を積んで運んでみよう！
+summary: 荷物を運ぶトラック、バスにも改造できるかも！センサーも活用しよう！
 image: images/lego-truck.jpg
 url: "https://drive.google.com/file/d/1Aw43fxikYLRODXnbb46Si-9xTh-JWigi/view?usp=sharing"
 video: videos/lego-truck.mp4
