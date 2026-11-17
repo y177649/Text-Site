@@ -10,6 +10,8 @@ interface Props {
   image?: string;
 }
 const { title, description = SITE.description, image } = Astro.props;
+// OGP 画像の既定値（各ページが image を渡した場合はそちらを使う。詳細ページは作品写真）
+const ogImage = image ?? 'og.png';
 const pageTitle = title ? `${title} | ${SITE.title}` : SITE.title;
 const base = import.meta.env.BASE_URL;
 ---
@@ -27,8 +29,8 @@ const base = import.meta.env.BASE_URL;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    {image && <meta property="og:image" content={new URL(`${base}${image}`, Astro.site)} />}
-    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={new URL(`${base}${ogImage}`, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#024176" />
     <!-- 背景は常に白。Dark Reader 等の拡張機能による自動ダーク化を止める -->
     <meta name="darkreader-lock" />
