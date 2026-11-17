@@ -7,7 +7,7 @@ const vm = require("node:vm");
 const ctx = {};
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(__dirname, "../gas/Analysis.gs"), "utf8"), ctx);
-const { countedFlags, buildReport, rankTexts } = ctx;
+const { countedFlags, buildReport, rankTexts, excludedDeviceIds_ } = ctx;
 
 const MIN = 60 * 1000;
 const T0 = Date.UTC(2026, 9, 1, 1, 0);
@@ -81,4 +81,17 @@ console.log("ok");
   ];
   assert.deepEqual(JSON.parse(JSON.stringify(rankTexts(evs, 90))).map((r) => r.textId), ["b", "a", "c"]);
   assert.deepEqual(JSON.parse(JSON.stringify(rankTexts([], 90))), []);
+}
+
+// 除外端末：見出しが device_id の列を読む（列の位置は問わない）。大文字小文字・前後の空白はそろえる。
+{
+  const sheetOf = (values) => ({ getSheetByName: () => ({ getDataRange: () => ({ getValues: () => values }) }) });
+  const ids = excludedDeviceIds_(sheetOf([
+    ["デバイス名", "device_id", "メモ"],
+    ["PC", " ABC-1 ", ""],
+    ["", "", "空行"],
+  ]));
+  assert.deepEqual(Object.keys(ids), ["abc-1"]);
+  // device_id の列がなければ何も除外しない。
+  assert.deepEqual(Object.keys(excludedDeviceIds_(sheetOf([["id"], ["abc-1"]]))), []);
 }

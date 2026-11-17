@@ -12,6 +12,29 @@ var ALL = "（合計）";
 // これより前の記録は導入時の動作確認なので数えない（生ログには残したまま、解析でだけ除外する）。
 // 最後の確認記録が 2026-10-08 02:50:11 なので、その次の秒から数える。
 var COUNT_FROM = "2026-10-08 02:50:12";
+// 自分（管理者）の端末など、利用回数に入れたくない端末の device_id を「除外端末」シートに書く。
+// 載っている端末の記録は過去分も含めて解析・人気順の両方から外す（生ログには残す）。
+var EXCLUDE_SHEET = "除外端末";
+
+function excludedDeviceIds_(ss) {
+  var sh = ss.getSheetByName(EXCLUDE_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(EXCLUDE_SHEET);
+    sh.getRange(1, 1, 1, 3).setValues([["デバイス名", "device_id", "メモ"]]).setFontWeight("bold");
+    sh.setFrozenRows(1);
+    sh.getRange("B:B").setNumberFormat("@");
+  }
+  var ids = {};
+  // 列の並びが変わっても読めるよう、見出しが device_id の列を探す。
+  var values = sh.getDataRange().getValues();
+  var col = values[0].map(function (h) { return String(h).trim(); }).indexOf("device_id");
+  if (col < 0) return {};
+  values.slice(1).forEach(function (r) {
+    var id = String(r[col]).trim().toLowerCase();
+    if (id) ids[id] = true;
+  });
+  return ids;
+}
 
 function runAnalysis() {
   var ss = SpreadsheetApp.getActive();
@@ -19,8 +42,9 @@ function runAnalysis() {
   var values = raw ? raw.getDataRange().getValues().slice(1) : [];
   var tz = ss.getSpreadsheetTimeZone();
   var countFrom = Utilities.parseDate(COUNT_FROM, tz, "yyyy-MM-dd HH:mm:ss").getTime();
+  var excluded = excludedDeviceIds_(ss);
   var events = values
-    .filter(function (r) { return r[0] instanceof Date && r[0].getTime() >= countFrom && r[1] && r[2]; })
+    .filter(function (r) { return r[0] instanceof Date && r[0].getTime() >= countFrom && r[1] && r[2] && !excluded[String(r[1]).toLowerCase()]; })
     .map(function (r) {
       return {
         time: r[0].getTime(),
@@ -32,6 +56,8 @@ function runAnalysis() {
     });
 
   var out = buildReport(events, THRESHOLDS_MIN);
+  // referrer が general の内訳行は（合計）と区別していないので表示しない。
+  out.counts = out.counts.filter(function (c) { return c.referrer !== "general"; });
   var sheet = ss.getSheetByName(ANALYSIS_SHEET) || ss.insertSheet(ANALYSIS_SHEET);
   resetSheet_(sheet);
 
@@ -55,7 +81,7 @@ function runAnalysis() {
   sheet.getRange(head, 1, lastRow - head + 1, 3).setNumberFormat("@");
   sheet.getRange(head, gapCol, lastRow - head + 1, 1).setNumberFormat("@");
 
-  sheet.getRange(1, 1, 1, 3).setValues([["更新", Utilities.formatDate(new Date(), tz, "yyyy-MM-dd HH:mm"), "主な値は " + PRIMARY_THRESHOLD_MIN + " 分。数字は感度分析の幅（最小〜最大）とあわせて読む。" + COUNT_FROM + " 以降の記録を集計（それより前は動作確認として除外）。"]]);
+  sheet.getRange(1, 1, 1, 3).setValues([["更新", Utilities.formatDate(new Date(), tz, "yyyy-MM-dd HH:mm"), "主な値は " + PRIMARY_THRESHOLD_MIN + " 分。数字は感度分析の幅（最小〜最大）とあわせて読む。" + COUNT_FROM + " 以降の記録を集計（それより前は動作確認として除外）。除外端末 " + Object.keys(excluded).length + " 台の記録も除外。"]]);
   sheet.getRange(3, 1).setValue("■ 利用回数（しきい値別）");
   sheet.getRange(3, gapCol).setValue("■ 同じ端末・同じテキストで連続して開いた間隔（全期間）");
   sheet.getRange(head, 1, 1, width).setValues([["期間", "text_id", "referrer", "開いた件数"]
