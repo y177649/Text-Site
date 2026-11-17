@@ -2,9 +2,7 @@
 // 重複はここでは一切はじかない（判定は Analysis.gs の解析で行う）。
 
 var RAW_SHEET = "生ログ";
-var MANUAL_SHEET = "正解データ";
 var RAW_HEADER = ["時刻", "device_id", "text_id", "referrer"];
-var MANUAL_HEADER = ["日付", "コマ開始時刻", "text_id", "使った人数", "使ったPC台数", "メモ"];
 
 // テキストの一覧は src/content/texts/ だけで管理する。ここでは text_id の形式だけを見るので、
 // テキストを追加しても Apps Script の書き換え・再デプロイは要らない。
@@ -49,8 +47,9 @@ function doGet(e) {
     var values = raw ? raw.getDataRange().getValues().slice(1) : [];
     // 解析（Analysis.gs）と同じく、導入時の動作確認（COUNT_FROM より前）は数えない
     var countFrom = Utilities.parseDate(COUNT_FROM, ss.getSpreadsheetTimeZone(), "yyyy-MM-dd HH:mm:ss").getTime();
+    var excluded = excludedDeviceIds_(ss);
     var events = values
-      .filter(function (r) { return r[0] instanceof Date && r[0].getTime() >= countFrom && r[1] && r[2]; })
+      .filter(function (r) { return r[0] instanceof Date && r[0].getTime() >= countFrom && r[1] && r[2] && !excluded[String(r[1]).toLowerCase()]; })
       .map(function (r) { return { time: r[0].getTime(), deviceId: String(r[1]), textId: String(r[2]) }; });
     var order = rankTexts(events, PRIMARY_THRESHOLD_MIN).map(function (r) { return r.textId; });
     return ContentService.createTextOutput(JSON.stringify({ order: order }))
@@ -62,9 +61,6 @@ function doGet(e) {
 // 初回に1回だけ手で実行する：シートを作り、解析を毎日走らせるトリガーを入れる。
 function setup() {
   sheet_(RAW_SHEET, RAW_HEADER);
-  var manual = sheet_(MANUAL_SHEET, MANUAL_HEADER);
-  manual.getRange("A:A").setNumberFormat("yyyy-mm-dd");
-  manual.getRange("B:B").setNumberFormat("hh:mm");
 
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === "runAnalysis") ScriptApp.deleteTrigger(t);
