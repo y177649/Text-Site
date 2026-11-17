@@ -6,8 +6,8 @@
     <clipPath id="q4"><rect x="264" y="264" width="248" height="248"/></clipPath>
   </defs>
   <rect x="8" y="8" width="496" height="496" rx="108" fill="#ffffff" stroke="#e1dedb" stroke-width="5"/>
-  <circle cx="172" cy="172" r="118" fill="#72c9ee" clip-path="url(#q1)"/>
-  <circle cx="340" cy="172" r="118" fill="#ffc02c" clip-path="url(#q2)"/>
-  <circle cx="172" cy="340" r="118" fill="#f28ea4" clip-path="url(#q3)"/>
-  <circle cx="340" cy="340" r="118" fill="#20b293" clip-path="url(#q4)"/>
+  <circle cx="172" cy="172" r="118" fill="#3178c6" clip-path="url(#q1)"/>
+  <circle cx="340" cy="172" r="118" fill="#f1e05a" clip-path="url(#q2)"/>
+  <circle cx="172" cy="340" r="118" fill="#ff5a03" clip-path="url(#q3)"/>
+  <circle cx="340" cy="340" r="118" fill="#663399" clip-path="url(#q4)"/>
 </svg>
