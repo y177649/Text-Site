@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import TextCard from '../../components/TextCard.astro';
+import { SITE } from '../../site';
 import { byLevel, catStyle, categorySlug, getTexts, groupByCategory } from '../../lib/texts';
 
 export async function getStaticPaths() {
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
 const { group } = Astro.props;
 const title = `${group.name}のテキスト`;
 ---
-<Base title={title} description={`${group.name}の作り方テキストの一覧。`}>
+<Base title={title} description={`${group.name}の作り方テキストの一覧。`} image={SITE.categoryOgImages[group.name]}>
   <div style={catStyle(group.name)}>
     <a class="back" href={import.meta.env.BASE_URL}>← トップへ</a>
     <h1 class="cat-title">{title}</h1>
