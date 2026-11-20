@@ -24,6 +24,10 @@ export const SITE = {
   } as Record<string, string>,
   // 分類ページのURL（/category/<slug>/）。ここに無い分類は cat-<番号>
   categorySlugs: { 'レゴ': 'lego', '3Dプリンター': '3d-printer' } as Record<string, string>,
+  // OGP 画像（public/ からのパス）。既定はトップなど分類の無いページ用。分類ページは categoryOgImages、
+  // 無い分類は既定を使う。各テキストのページは作品写真（frontmatter の image）
+  ogImage: 'og-lego.jpg',
+  categoryOgImages: { 'レゴ': 'og-lego.jpg', '3Dプリンター': 'og-3d-printer.jpg' } as Record<string, string>,
   // トップの「New」：公開日（published）から何日以内を新しいとみなすか。サイトは毎日作り直すので自然に外れる
   newDays: 30,
   // トップの「おすすめのテキスト」：よく開かれている順（利用記録を90分で数えた回数。回数は出さない）に何本出すか
